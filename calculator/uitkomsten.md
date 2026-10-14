@@ -54,16 +54,18 @@ Pakketprijs aligner (elke 11 wkn) met hetzelfde bedrag per uur als een vaste beu
 | 4 | € 1.452 | € 1.272 | € 1.404 |
 | 5 | € 1.694 | € 1.484 | € 1.638 |
 
-## Adviesprijs (MRSP) per markt, controle elke 11 weken
+## Adviesprijs (MRSP) als totaalprijs per markt, controle elke 11 weken
 
-| Markt | Sets | Adviesprijs* | Ouders na verzekering | Praktijk na lab | Per uur |
-|---|---|---|---|---|---|
-| Nederland (NZa-begroting) | 3 | € 2.478 | € 478 | € 1.268 | € 296 |
-| Nederland (NZa-begroting) | 4 | € 2.720 | € 720 | € 1.268 | € 296 |
-| België (pakket, niet-geconv.) | 3 | € 2.750 | € 839 | € 1.690 | € 395 |
-| België (pakket, niet-geconv.) | 4 | € 2.962 | € 924 | € 1.690 | € 395 |
-| Luxemburg (CNS + CP8) | 3 | € 930 | € 430 | € 2.231 | € 521 |
-| Luxemburg (CNS + CP8) | 4 | € 1.164 | € 664 | € 2.231 | € 521 |
+| Markt | Sets | Honorarium arts | Labkosten | Totaalprijs | Vergoeding* | Ouders | Per uur |
+|---|---|---|---|---|---|---|---|
+| NL – NZa-tarieven | 3 | € 1.268 | € 1.210 | € 2.478 | € 2.000 | € 478 | € 296 |
+| NL – NZa-tarieven | 4 | € 1.268 | € 1.452 | € 2.720 | € 2.000 | € 720 | € 296 |
+| BE – geconventioneerd (maximumtarieven) | 3 | € 887 | € 1.060 | € 1.947 | € 1.429 | € 518 | € 207 |
+| BE – geconventioneerd (maximumtarieven) | 4 | € 675 | € 1.272 | € 1.947 | € 1.429 | € 518 | € 158 |
+| BE – niet-geconventioneerd (pakket) | 3 | € 1.690 | € 1.060 | € 2.750 | € 1.911 | € 839 | € 395 |
+| BE – niet-geconventioneerd (pakket) | 4 | € 1.690 | € 1.272 | € 2.962 | € 2.038 | € 924 | € 395 |
+| LU – CNS-tarief + CP8 | 3 | € 2.231 | € 1.170 | € 3.401 | € 2.971 | € 430 | € 521 |
+| LU – CNS-tarief + CP8 | 4 | € 2.231 | € 1.404 | € 3.635 | € 2.971 | € 664 | € 521 |
 
-*NL: totale NZa-begroting. BE: all-in pakketprijs; extra set tegen inkoopprijs erbij. LU: CP8-supplement bovenop het CNS-tarief; extra set tegen inkoopprijs erbij.
+*NL: aanvullende verzekering (voorbeeld 100% tot €2.000). BE: RIZIV + CM (60%, max. €1.500). LU: CNS 100% (< 18 jaar) + CMCM Denta & OptiPlus (max. €500). BE geconventioneerd: de praktijk vangt de labkosten op binnen de maximumtarieven, dus een vierde set verlaagt het honorarium.
 

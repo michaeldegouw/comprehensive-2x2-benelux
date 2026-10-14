@@ -16,7 +16,7 @@
 2. **Klinisch.** De meeste tienercasussen passen hierin. In gepubliceerde cohorten is gemiddeld **minder dan één refinement** nodig. In de data van Align is **[ALIGN-DATA: x%]** binnen 24 maanden klaar.
 3. **Voor de praktijk.** De CNS vergoedt **per periode, niet per bezoek**. Elke controle die wegvalt, is daarom pure tijdwinst. Met het aanbevolen supplement levert de aligner per patiënt evenveel op als een vaste beugel, maar per uur **≈ €521** tegenover **≈ €192**.
 4. **Voor het gezin.** De CNS vergoedt 100% tot 18 jaar. Het gezin betaalt alleen het supplement, ongeveer **€930**, waarvan de CMCM Denta & OptiPlus mogelijk tot €500 dekt.
-5. **Adviesprijs.** Het vrijblijvende advies is een **supplement CP8 van €930**, het materiaalverschil met een vaste beugel (§6).
+5. **Adviesprijs.** De totaalprijs is **≈ €3.401**: het CNS-tarief plus een CP8-supplement van €930 voor het materiaalverschil met een vaste beugel. Het honorarium van de arts is daarin ≈ €2.231, de labkosten €1.170. De CNS betaalt ≈ €2.471; de ouders betalen ≈ €430 na de CMCM (§6).
 
 ---
 
@@ -83,21 +83,30 @@ Uitgangspunten:
 | **Per uur** | **€192** | €304 | €317 | **€521** |
 | Ouders zelf (na CMCM, max. €500) | €0 | €0 | €430 | **€430** |
 
-## 6. Adviesprijs (MRSP) voor Luxemburg
+## 6. Adviesprijs (MRSP) voor Luxemburg: totaalprijs volgens het lokale beleid
 
-> **Vrijblijvend.** Alle tandartsen zijn verplicht geconventioneerd en volgen de CNS-tarieven. Een supplement mag alleen als *convenance personnelle* (CP8), na voorafgaande informatie en toestemming van de patiënt, en "avec tact et mesure". Deze adviesprijs komt van Align. De ondertekenende artsen onderschrijven de rekenmethode, niet de prijs.
+> **Vrijblijvend.** De adviesprijs is de **totaalprijs voor het gezin**: het CNS-tarief voor het honorarium (de DT-posities) plus een supplement CP8 voor de meerkosten van het materiaal. Alle tandartsen zijn verplicht geconventioneerd. Een supplement mag alleen als *convenance personnelle* (CP8), na voorafgaande informatie en toestemming van de patiënt, en "avec tact et mesure". De adviesprijs komt van Align. De ondertekenende artsen onderschrijven de rekenmethode, niet de prijs.
 
-| | Adviesprijs |
-|---|---|
-| CNS-tarief (DT-posities) | volgens de nomenclatuur, vergoed door de CNS |
-| **Supplement CP8, 3 sets** | **€930**: het materiaalverschil tussen Comprehensive 2x2 (€1.170) en brackets en bogen (±€240) |
-| Vierde set, indien nodig | + €234 → €1.164 |
+**Opbouw bij het aanbevolen schema (eerste controle na 4–6 weken, daarna om de 10–12 weken, 18 maanden):**
 
-**Waarom €930:**
-- **Goed uit te leggen aan ouders:** *"u betaalt alleen de meerkosten van het materiaal"*.
-- **Per patiënt** houdt de praktijk evenveel over als bij een vaste beugel.
-- **Per uur** bijna drie keer zoveel.
-- **Lager kan ook.** Een praktijk kan een lager supplement kiezen, of geen supplement. Ook dan levert de aligner per uur meer op dan een vaste beugel (€304 tegenover €192).
+| Onderdeel | Bedrag | Wie betaalt |
+|---|---|---|
+| CNS-tarief: 1e periode (DT41 + DT42), 2e periode (DT43), vervolgperiode | ≈ €2.471 | CNS, 100% tot 18 jaar |
+| Supplement CP8: meerkosten van de aligner (€1.170) tegenover brackets en bogen (±€240) | €930 | Ouders; CMCM Denta & OptiPlus mogelijk tot €500 |
+| **Totaalprijs (adviesprijs)** | **≈ €3.401** | |
+| waarvan labkosten Comprehensive 2x2 | €1.170 | door de praktijk betaald |
+| waarvan honorarium arts | €2.231 | |
+
+| Variant | Honorarium arts | Labkosten | **Totaalprijs** | CNS + CMCM | Ouders |
+|---|---|---|---|---|---|
+| 3 sets | €2.231 | €1.170 | **≈ €3.401** | €2.971 | ≈ €430 |
+| 4 sets | €2.231 | €1.404 | **≈ €3.635** | €2.971 | ≈ €664 |
+
+**Toelichting:**
+- **Voor de praktijk.** Het honorarium is gelijk aan dat van een vaste beugel (€2.471 CNS min ±€240 materiaal = €2.231). Omdat de patiënt veel minder vaak komt, levert dat **≈ €521 per uur** op, tegenover ≈ €192.
+- **Voor het gezin.** Het gezin betaalt alleen het supplement. Bij een vaste beugel is dat €0, bij de aligner ≈ €430 na de CMCM.
+- **Lager supplement kan ook.** De praktijk kan een lager supplement kiezen, of geen supplement. Ook zonder supplement levert de aligner per uur meer op dan een vaste beugel (€304 tegenover €192).
+- **Bedragen nog te bevestigen.** De CNS-bedragen, de indeling van aligners onder DT3x of DT4x, en het gebruik van CP8 voor aligners worden nog bevestigd (validatie LU-1 tot en met LU-4).
 
 ## 7. Verantwoording
 

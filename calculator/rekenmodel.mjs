@@ -191,25 +191,30 @@ export function uitkomsten() {
     [3, 4, 5].map((n) => [n === 3 ? '3 (inbegrepen)' : String(n), eur(labkosten('aligner', A.nl.btw.waarde, n)), eur(labkosten('aligner', A.be.btw.waarde, n)), eur(labkosten('aligner', A.lu.btw.waarde, n))]),
   ));
   const m = A.mrsp;
-  out.push('\n## Adviesprijs (MRSP) per markt, controle elke 11 weken\n');
-  const rij = (land, sets, s, prijs) => [land, sets, eur(prijs), eur(s.ouders), eur(s.praktijkNetto), eur(s.perUur)];
+  out.push('\n## Adviesprijs (MRSP) als totaalprijs per markt, controle elke 11 weken\n');
   const r = [];
+  const rij = (markt, n, honorarium, lab, vergoeding, ouders, perUur) =>
+    [markt, n, eur(honorarium), eur(lab), eur(honorarium + lab), eur(vergoeding), eur(ouders), eur(perUur)];
   for (const n of [3, 4]) {
     const s = nl({ type: 'aligner', maanden: D, intervalWeken: 11, sets: n });
-    r.push(rij('Nederland (NZa-begroting)', n, s, s.patient));
+    r.push(rij('NL – NZa-tarieven', n, s.honorarium, s.techniek, s.patient - s.ouders, s.ouders, s.perUur));
+  }
+  for (const n of [3, 4]) {
+    const s = be({ type: 'aligner', maanden: D, intervalWeken: 11, model: 'max', sets: n });
+    r.push(rij('BE – geconventioneerd (maximumtarieven)', n, s.factuur - s.lab, s.lab, s.riziv + s.aanvullend, s.ouders, s.perUur));
   }
   for (const n of [3, 4]) {
     const extra = labkosten('aligner', A.be.btw.waarde, n) - labkosten('aligner', A.be.btw.waarde, 3);
     const s = be({ type: 'aligner', maanden: D, intervalWeken: 11, model: 'pakket', pakketprijs: m.be.pakketprijs + extra, sets: n });
-    r.push(rij('België (pakket, niet-geconv.)', n, s, s.factuur));
+    r.push(rij('BE – niet-geconventioneerd (pakket)', n, s.praktijkNetto, s.lab, s.riziv + s.aanvullend, s.ouders, s.perUur));
   }
   for (const n of [3, 4]) {
     const extra = labkosten('aligner', A.lu.btw.waarde, n) - labkosten('aligner', A.lu.btw.waarde, 3);
     const s = lu({ type: 'aligner', maanden: D, intervalWeken: 11, cp8: m.lu.cp8 + extra, sets: n });
-    r.push(rij('Luxemburg (CNS + CP8)', n, s, s.cp8));
+    r.push(rij('LU – CNS-tarief + CP8', n, s.praktijkNetto, s.lab, s.cns + s.cp8 - s.ouders, s.ouders, s.perUur));
   }
-  out.push(tabel(['Markt', 'Sets', 'Adviesprijs*', 'Ouders na verzekering', 'Praktijk na lab', 'Per uur'], r));
-  out.push('\n*NL: totale NZa-begroting. BE: all-in pakketprijs; extra set tegen inkoopprijs erbij. LU: CP8-supplement bovenop het CNS-tarief; extra set tegen inkoopprijs erbij.\n');
+  out.push(tabel(['Markt', 'Sets', 'Honorarium arts', 'Labkosten', 'Totaalprijs', 'Vergoeding*', 'Ouders', 'Per uur'], r));
+  out.push('\n*NL: aanvullende verzekering (voorbeeld 100% tot €2.000). BE: RIZIV + CM (60%, max. €1.500). LU: CNS 100% (< 18 jaar) + CMCM Denta & OptiPlus (max. €500). BE geconventioneerd: de praktijk vangt de labkosten op binnen de maximumtarieven, dus een vierde set verlaagt het honorarium.\n');
   return out.join('\n');
 }
 

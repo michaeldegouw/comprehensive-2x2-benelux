@@ -15,7 +15,7 @@
 2. **Klinisch.** De meeste tienercasussen passen hierin. In gepubliceerde cohorten is gemiddeld **minder dan één refinement** nodig, en duurt een alignerbehandeling bij tieners **14–17 maanden**. In de data van Align is **[ALIGN-DATA: x%]** binnen 24 maanden klaar en heeft **[ALIGN-DATA: y%]** genoeg aan drie sets. Voor complexe casussen geldt een duidelijke selectie (§3).
 3. **Voor het gezin.** Met controles om de 10–12 weken komt een complete behandeling volgens de NZa-opbouw uit op **≈ €2.480**. Een blokjesbeugel kost **≈ €2.310**.
 4. **Voor de praktijk.** Per patiënt is er minder honorarium, maar per uur stoel- en artsentijd levert het **≈ €296** op, tegenover **≈ €178** voor een blokjesbeugel. Dat komt doordat de patiënt minder vaak komt.
-5. **Adviesprijs.** In Nederland is de adviesprijs de **NZa-conforme totaalbegroting**: ≈ €2.480 bij drie sets, ≈ €2.720 als een vierde set nodig is (§6).
+5. **Adviesprijs.** De totaalprijs volgens de NZa-tarieven is **≈ €2.478**: honorarium arts €1.268 + techniekkosten €1.210. Is er een vierde set nodig, dan wordt het ≈ €2.720 (§6).
 
 ---
 
@@ -93,27 +93,36 @@ Samengevat uit het [klinisch kader](../gedeeld/klinisch-protocol.md):
 - In 100 stoeluren behandelt u ±9 blokjesbeugelpatiënten of ±23 alignerpatiënten.
 - Voor een praktijk met een volle agenda of een wachtlijst is dat de doorslag.
 
-## 6. Adviesprijs (MRSP) voor Nederland
+## 6. Adviesprijs (MRSP) voor Nederland: totaalprijs volgens de NZa-tarieven
 
-> **Vrijblijvend.** De NZa-tarieven zijn maximumtarieven. Een praktijk mag lager declareren, nooit hoger. Deze adviesprijs is de NZa-conforme totaalbegroting bij het aanbevolen controleschema, afkomstig van Align. De ondertekenende artsen onderschrijven de rekenmethode, niet de prijs.
+> **Vrijblijvend.** De adviesprijs is de **totaalprijs voor het gezin**: het honorarium van de arts volgens de NZa-tarieven 2026 plus de techniekkosten tegen inkoopprijs. De NZa-tarieven zijn maximumtarieven. Een praktijk mag lager declareren, nooit hoger. De adviesprijs komt van Align. De ondertekenende artsen onderschrijven de rekenmethode, niet de prijs.
 
-| Post | Code | Bedrag |
+**Opbouw bij het aanbevolen schema (eerste controle na 4–6 weken, daarna elke 10–12 weken, 18 maanden):**
+
+| Onderdeel | Code | Bedrag |
 |---|---|---|
 | Diagnostiek | F121 + F125 + F126 | €116,04 |
 | Plaatsen aligners | F471 | €614,53 |
-| 7 maandconsulten (elke 10–12 weken in 18 maanden) | 7 × F517 | €324,17 |
+| 7 maandconsulten | 7 × F517 | €324,17 |
 | Verwijderen en eerste retentie | 2 × F492 (geldigheid bij aligners in validatie) | €213,30 |
-| Techniekkosten Comprehensive 2x2 | inkoopprijs incl. btw | €1.210,00 |
-| **Adviesprijs, 3 sets** | | **≈ €2.478** |
-| Vierde set, indien nodig | inkoopprijs incl. btw | + €242 → **≈ €2.720** |
-| Optioneel: consult op afstand in tussenmaanden | 11 × F520 | + €171 |
+| **Honorarium arts** | | **€1.268** |
+| Techniekkosten Comprehensive 2x2 (3 sets) | inkoopprijs incl. btw | €1.210 |
+| **Totaalprijs (adviesprijs)** | | **≈ €2.478** |
 
-**Wat er niet in zit:**
+| Variant | Honorarium | Labkosten | **Totaalprijs** | Ouders* |
+|---|---|---|---|---|
+| 3 sets (standaard) | €1.268 | €1.210 | **≈ €2.478** | ≈ €478 |
+| 4 sets | €1.268 | €1.452 | **≈ €2.720** | ≈ €720 |
+| 3 sets + consult op afstand in de tussenmaanden (11 × F520) | €1.439 | €1.210 | **≈ €2.649** | ≈ €649 |
+
+\*Voorbeeld: aanvullende verzekering met 100% vergoeding tot €2.000. Bij polissen van €1.500–€2.500 betalen ouders meestal enkele honderden euro's zelf.
+
+**Niet inbegrepen:**
 - röntgenfoto's;
-- de beoordeling bij refinement (F133, €68,54: wordt in de validatie gecheckt);
-- tariefwijzigingen in 2027 (+2,96%).
+- de beoordeling bij refinement (F133, €68,54; wordt in de validatie nagevraagd);
+- de tariefstijging van 2027 (+2,96%) voor het deel van de behandeling dat in 2027 valt.
 
-**Voor ouders.** Met een aanvullende verzekering van €1.500–€2.500 voor orthodontie betalen ouders meestal enkele honderden euro's zelf (bijvoorbeeld €478 bij een polis met 100% tot €2.000).
+**Ter vergelijking:** een blokjesbeugel van 24 maanden volgens de NZa-tarieven kost ≈ €2.314, waarvan €2.074 honorarium.
 
 ## 7. Verantwoording
 

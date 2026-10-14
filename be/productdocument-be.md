@@ -16,7 +16,7 @@
 2. **Klinisch.** De meeste tienercasussen passen hierin. In gepubliceerde cohorten is gemiddeld **minder dan één refinement** nodig, en duurt een alignerbehandeling bij tieners **14–17 maanden**. In de data van Align is **[ALIGN-DATA: x%]** binnen 24 maanden klaar en heeft **[ALIGN-DATA: y%]** genoeg aan drie sets.
 3. **Voor de praktijk.** Met controles om de 10–12 weken kost een alignerpatiënt ongeveer **4,3 uur** stoel- en artsentijd, tegenover **11,7 uur** voor een blokjesbeugel. Een all-in pakket van €2.750 levert **≈ €395 per uur** op. Een blokjesbeugel tegen een marktprijs van €3.500 levert **≈ €280 per uur** op.
 4. **Voor het gezin.** Het gezin betaalt minder dan voor een blokjesbeugel. Na RIZIV en CM: **≈ €840** tegenover **≈ €990**.
-5. **Adviesprijs.** De vrijblijvende adviesprijs is **€2.750 all-in** voor niet-geconventioneerde praktijken. Geconventioneerde praktijken volgen de akkoord- en maximumtarieven (§6).
+5. **Adviesprijs.** De totaalprijs, inclusief het honorarium van de arts, is **€2.750 all-in** bij een niet-geconventioneerde praktijk: honorarium €1.690 + labkosten €1.060. Bij een geconventioneerde praktijk is het **≈ €1.947** volgens de maximumtarieven 2026 (§6).
 
 ---
 
@@ -101,31 +101,29 @@ Vanaf een pakketprijs van **€2.259** levert de aligner per uur evenveel op als
 - **Wat de doorslag geeft**, is de vrijgekomen stoeltijd.
 - **Als de maximumtarieven een supplement zijn** bovenop het honorarium, verandert dit beeld. Dat is een open vraag in de validatie.
 
-## 6. Adviesprijs (MRSP) voor België
+## 6. Adviesprijs (MRSP) voor België: totaalprijs volgens het lokale beleid
 
-> **Vrijblijvend.** Elke praktijk bepaalt zelf haar honoraria, binnen de conventie als ze geconventioneerd is. Deze adviesprijs komt van Align. De ondertekenende artsen onderschrijven de rekenmethode, niet de prijs.
+> **Vrijblijvend.** De adviesprijs is de **totaalprijs voor het gezin**: het honorarium van de arts plus de labkosten. In België hangt die af van het statuut van de praktijk. Elke praktijk bepaalt zelf haar honoraria, binnen de conventie als ze geconventioneerd is. De adviesprijs komt van Align. De ondertekenende artsen onderschrijven de rekenmethode, niet de prijs.
 
-| | Adviesprijs |
-|---|---|
-| **Niet-geconventioneerde praktijk, all-in pakket** (diagnostiek, aligners met 3 sets, controles, afronding, eerste retentie) | **€2.750** |
-| Vierde set, indien nodig | + €212 (inkoopprijs) → €2.962 |
-| **Geconventioneerde praktijk** | Akkoord- en maximumtarieven 2026, met geïnformeerde toestemming. Bij het aanbevolen schema ≈ **€1.950** |
-| Patiënt met verhoogde tegemoetkoming | Geen supplementen (sinds 1/7/2026); alleen de toegestane tarieven |
+**Aanbevolen schema:** eerste controle na 4–6 weken, daarna om de 10–12 weken, 18 maanden. Dat geeft ±8 zittingen en 2 apparatuurforfaits.
+
+| Statuut | Sets | Honorarium arts | Labkosten | **Totaalprijs** | RIZIV + CM | Ouders |
+|---|---|---|---|---|---|---|
+| **Niet-geconventioneerd (all-in pakket)** | 3 | €1.690 | €1.060 | **€2.750** | €1.911 | ≈ €839 |
+| Niet-geconventioneerd | 4 | €1.690 | €1.272 | **€2.962** | €2.038 | ≈ €924 |
+| **Geconventioneerd (maximumtarieven 2026)** | 3 | €887 | €1.060 | **≈ €1.947** | €1.429 | ≈ €518 |
+| Geconventioneerd | 4 | €675 | €1.272 | **≈ €1.947** | €1.429 | ≈ €518 |
+
+**Toelichting:**
+- **Pakket.** Het all-in pakket omvat diagnostiek, aligners met 3 sets, alle zittingen, afronding en eerste retentie. Is er een vierde set nodig, dan komt die er tegen inkoopprijs (€212) bij.
+- **Geconventioneerd.** Hier is de totaalprijs begrensd door de maximumtarieven: diagnostiek ±€107, 2 × apparatuurforfait €758 en 8 × zitting €40,50. De labkosten moeten binnen dat plafond worden opgevangen, dus een vierde set gaat van het honorarium af. Dit geldt als de maximumtarieven een totaalplafond zijn; is het een supplement, dan wordt de totaalprijs hoger. Dat zoeken we uit in de validatie.
+- **Patiënten met verhoogde tegemoetkoming.** Sinds 1/7/2026 mogen daar geen supplementen worden aangerekend.
+- **RIZIV + CM.** Gerekend met een gewone rechthebbende, RIZIV ±€653, en CM 60% van het eigen deel tot €1.500. Helan, Solidaris en LM vullen aan tot €1.050, VNZ en NZVL tot €1.400.
 
 **Waarom €2.750:**
-- **Goedkoper dan het huidige aanbod.** Het ligt **onder** de gangbare marktprijs van een blokjesbeugel (€3.000–€4.000) en ruim onder het huidige Invisalign-aanbod (€4.000–€5.000).
-- **Meer per uur.** Per uur levert het **≈ 40% meer** op dan een blokjesbeugel tegen €3.500.
+- **Goedkoper dan het huidige aanbod.** Het ligt onder de gangbare marktprijs van een blokjesbeugel (€3.000–€4.000) en ruim onder het huidige Invisalign-aanbod (€4.000–€5.000).
+- **Meer per uur.** Per uur levert het **≈ 40% meer** op dan een blokjesbeugel tegen €3.500 (€395 tegenover €280).
 - **Past binnen het voorstel voor 2027.** Dat voorstel (maximaal €4.500 per behandeling bij geconventioneerde orthodontisten) is nog niet definitief.
-
-**Wat ouders na terugbetaling betalen** (gewone rechthebbende): RIZIV ±€653. Wat het ziekenfonds daarna aanvult, verschilt:
-
-| Ziekenfonds | Aanvulling | Ouders betalen bij een pakket van €2.750 |
-|---|---|---|
-| CM | 60%, tot €1.500 | ≈ €840 |
-| Helan, Solidaris, LM | tot €1.050 | ≈ €1.050 |
-| VNZ, NZVL | tot €1.400 | ≈ €700 als het volledige plafond wordt bereikt |
-
-Let op bij VNZ: die betaalt per schijf van 6 zittingen.
 
 ## 7. Verantwoording
 
