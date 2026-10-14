@@ -1,0 +1,80 @@
+{
+  "_toelichting": "Alle invoerwaarden voor het rekenmodel. Elk getal heeft een status: 'bron' (uit onderzoek, nog in origineel te controleren), 'opgave' (aangeleverd door Align/opdrachtgever) of 'aanname' (door artsen te valideren). Bedragen in euro. Peildatum 14-10-2026.",
+
+  "product": {
+    "naam": "Invisalign Comprehensive 2x2",
+    "labprijsExBtw": { "waarde": 1000, "status": "opgave" },
+    "behandelduurMaanden": { "waarde": 18, "status": "aanname", "noot": "Gemiddelde alignerduur tiener; Borda 2020: 16,9 mnd. Per casus aanpassen." }
+  },
+
+  "stoeltijdMinuten": {
+    "_noot": "Aannames voor een gemiddelde tienercasus. Onderbouwing richting: Buschang 2014 (vast 93 min meer totale stoeltijd), Borda 2020 (spoed 3,6 vs 0,8), Agarwal 2023 (stoeltijd per bezoek lager bij aligners). Door artsen te valideren.",
+    "diagnostiek": { "vast": 45, "aligner": 45, "status": "aanname" },
+    "start": { "vast": 75, "aligner": 45, "status": "aanname", "noot": "Vast: bonden beide kaken. Aligner: attachments plaatsen, instructie." },
+    "controle": { "vast": 20, "aligner": 15, "status": "aanname" },
+    "spoedbezoek": { "vast": 15, "aligner": 15, "status": "aanname" },
+    "aantalSpoedbezoeken": { "vast": 3.6, "aligner": 0.8, "status": "bron", "bron": "Borda et al. 2020, Angle Orthod 90(4):485-490" },
+    "afronding": { "vast": 45, "aligner": 20, "status": "aanname", "noot": "Vast: debonden + retentie. Aligner: attachments verwijderen + retentie." },
+    "planningBuitenStoel": { "vast": 0, "aligner": 30, "status": "aanname", "noot": "ClinCheck beoordelen en aanpassen. Wordt meegeteld als artsentijd (Buschang 2014: aligners meer doctor time)." },
+    "consultOpAfstand": { "aligner": 5, "status": "aanname" }
+  },
+
+  "vasteBeugel": {
+    "behandelduurMaanden": { "waarde": 24, "status": "aanname", "noot": "Borda 2020: 23,4 mnd bij tieners." },
+    "intervalWeken": { "waarde": 4.33, "status": "aanname", "noot": "Ongeveer maandelijks." },
+    "materiaalBracketsBogen": { "waarde": 240, "status": "bron", "bron": "Ortho Heijnen 2026, metaal cat. 6 (indicatie)" }
+  },
+
+  "nl": {
+    "btw": { "waarde": 0.21, "status": "opgave", "noot": "Niet aftrekbaar: orthodontie vrijgesteld (art. 11 lid 1 g Wet OB). Fiscalist laten bevestigen." },
+    "tariefjaar": 2026,
+    "tarieven": {
+      "_bron": "NZa TB/REG-26617-01 tarief A, via praktijklijsten; in origineel te controleren",
+      "F121": 28.51, "F125": 18.99, "F126": 68.54,
+      "F461": 633.24, "F471": 614.53,
+      "F516": 46.31, "F517": 46.31, "F521": 32.42,
+      "F520": 15.51,
+      "F492": 106.65
+    },
+    "regels": {
+      "maandconsultAlleenInMaandMetBezoek": true,
+      "maxEenMaandconsultPerKalendermaand": true,
+      "F521VanafBehandelmaand": 25,
+      "F492BijAlignersToegestaan": { "waarde": true, "status": "NIET GEVERIFIEERD" }
+    },
+    "voorbeeldVerzekering": { "percentage": 1.0, "maximum": 2000, "status": "bron", "noot": "Bijv. Menzis TandVerzorgd 750 / Zilveren Kruis 3 sterren; per polis controleren" }
+  },
+
+  "be": {
+    "btw": { "waarde": 0.06, "status": "opgave", "noot": "Praktijk vrijgesteld (therapeutisch), btw niet aftrekbaar." },
+    "riziv": {
+      "_bron": "RIZIV-tarieftabel 1/1/2026 via zoekresultaten; kolommen niet geverifieerd",
+      "apparatuurHonorarium": 238.31, "apparatuurTerugbetaling": 192.31,
+      "zittingHonorarium": 30.30, "zittingTerugbetaling": 23.30,
+      "diagnostiekFactuur": 107.00, "diagnostiekTerugbetaling": 81.75,
+      "maxZittingen": 36, "maxZittingenPerHalfjaar": 6,
+      "tweedeApparatuurforfaitNaZittingen": 6, "tweedeApparatuurforfaitVanafMaand": 6
+    },
+    "maximumtarieven2026": {
+      "apparatuur": 758.00, "zitting": 40.50,
+      "status": "NIET GEVERIFIEERD",
+      "noot": "Interpretatie: totaalplafond per prestatie bij geconventioneerden, met geïnformeerde toestemming. Kan ook supplement zijn (punt 4.3.c akkoord 2026-2027)."
+    },
+    "marktprijsVasteBeugel": { "waarde": 3500, "status": "bron", "noot": "Midden van 3.000-4.000 (mutualiteiten-vergelijken.be 2026)" },
+    "voorbeeldAanvullend": { "percentage": 0.60, "maximum": 1500, "status": "bron", "noot": "CM, behandelingen gestart vanaf 1/1/2026" }
+  },
+
+  "lu": {
+    "btw": { "waarde": 0.17, "status": "aanname", "noot": "Waarschijnlijk normaal tarief; facturatie door Align te bevestigen. Praktijk vrijgesteld (art. 44 LTVA), niet aftrekbaar." },
+    "cns": {
+      "_bron": "Nomenclature médecins-dentistes 01.06.2026 (index 992,24) via zoekresultaten; in PDF te controleren",
+      "eerste15Maanden": 1833.50,
+      "vervolgperiode": 637.70,
+      "vervolgperiodeMaanden": 9,
+      "vergoedingOnder18": 1.0,
+      "status": "NIET GEVERIFIEERD",
+      "noot": "Aanname: DT-forfait dekt honorarium inclusief apparaat; meerkosten aligner via CP8 (convenance personnelle)."
+    },
+    "voorbeeldAanvullend": { "maximum": 500, "status": "NIET GEVERIFIEERD", "noot": "CMCM Denta & OptiPlus per kind" }
+  }
+}
