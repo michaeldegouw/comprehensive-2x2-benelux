@@ -8,6 +8,8 @@ Case studies voor artsen in **Nederland, België en Luxemburg**. Ze laten zien h
 
 | Map | Inhoud |
 |---|---|
+| [`nl/productdocument-nl.md`](nl/productdocument-nl.md), [`be/…`](be/productdocument-be.md), [`lu/…`](lu/productdocument-lu.md) | **Productdocument per markt**: klinische en bedrijfsmatige uitleg van Comprehensive 2x2, adviesprijs (MRSP) en de onderschrijvingspagina voor artsen |
+| [`gedeeld/onderschrijving.md`](gedeeld/onderschrijving.md) | Werkwijze voor de onderschrijving door artsen: wat ze wel en niet tekenen (mededinging), samenstelling van de groep, vergoeding en transparantie per land |
 | [`nl/`](nl/case-study-nl.md) | Case study Nederland: NZa-tarieven, techniekkosten tegen inkoopprijs, F517 alleen in maanden met een bezoek |
 | [`be/`](be/case-study-be.md) | Case study België: RIZIV-forfait per zitting, maximumtarieven 2026, adviespakketprijs |
 | [`lu/`](lu/case-study-lu.md) | Case study Luxemburg: CNS-vergoeding per periode, supplement via CP8 |

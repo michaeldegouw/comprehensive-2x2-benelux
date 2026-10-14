@@ -24,14 +24,15 @@ export function stoeltijd(type, controles, consultenOpAfstand = 0) {
   );
 }
 
-function labkosten(type, btw) {
-  return type === 'aligner'
-    ? A.product.labprijsExBtw.waarde * (1 + btw)
-    : A.vasteBeugel.materiaalBracketsBogen.waarde;
+// Totaal aantal alignersets (initieel + additional). Inbegrepen: 3; daarboven per set bij te bestellen.
+export function labkosten(type, btw, sets = A.product.setsInbegrepen.waarde) {
+  if (type !== 'aligner') return A.vasteBeugel.materiaalBracketsBogen.waarde;
+  const extra = Math.max(0, sets - A.product.setsInbegrepen.waarde);
+  return (A.product.labprijsExBtw.waarde + extra * A.product.extraSetExBtw.waarde) * (1 + btw);
 }
 
 // ---------- Nederland (NZa) ----------
-export function nl({ type, maanden, intervalWeken, opAfstand = false }) {
+export function nl({ type, maanden, intervalWeken, opAfstand = false, sets }) {
   const T = A.nl.tarieven;
   const controles = aantalControles(maanden, intervalWeken);
   // Maximaal één maandconsult per kalendermaand, alleen in maanden met een bezoek.
@@ -49,7 +50,7 @@ export function nl({ type, maanden, intervalWeken, opAfstand = false }) {
     afronding: 2 * T.F492,
   };
   const honorarium = Object.values(posten).reduce((a, b) => a + b, 0);
-  const techniek = labkosten(type, A.nl.btw.waarde);
+  const techniek = labkosten(type, A.nl.btw.waarde, sets);
   const patient = honorarium + techniek;
   const v = A.nl.voorbeeldVerzekering;
   const vergoeding = Math.min(v.maximum, v.percentage * patient);
@@ -64,7 +65,7 @@ export function nl({ type, maanden, intervalWeken, opAfstand = false }) {
 }
 
 // ---------- België (RIZIV) ----------
-export function be({ type, maanden, intervalWeken, model, pakketprijs }) {
+export function be({ type, maanden, intervalWeken, model, pakketprijs, sets }) {
   const R = A.be.riziv;
   const M = A.be.maximumtarieven2026;
   const controles = aantalControles(maanden, intervalWeken);
@@ -82,7 +83,7 @@ export function be({ type, maanden, intervalWeken, model, pakketprijs }) {
   const eigenDeel = Math.max(0, factuur - riziv);
   const av = A.be.voorbeeldAanvullend;
   const aanvullend = Math.min(av.maximum, av.percentage * eigenDeel);
-  const lab = labkosten(type, A.be.btw.waarde);
+  const lab = labkosten(type, A.be.btw.waarde, sets);
   const minuten = stoeltijd(type, controles);
   return {
     controles, zittingen, forfaits, factuur, riziv, eigenDeel, aanvullend,
@@ -106,10 +107,10 @@ export function cnsInkomsten(maanden) {
   return C.eerste15Maanden + Math.ceil(Math.max(0, maanden - 15) / C.vervolgperiodeMaanden) * C.vervolgperiode;
 }
 
-export function lu({ type, maanden, intervalWeken, cp8 = 0 }) {
+export function lu({ type, maanden, intervalWeken, cp8 = 0, sets }) {
   const controles = aantalControles(maanden, intervalWeken);
   const cns = cnsInkomsten(maanden);
-  const lab = labkosten(type, A.lu.btw.waarde);
+  const lab = labkosten(type, A.lu.btw.waarde, sets);
   const aanvullend = Math.min(A.lu.voorbeeldAanvullend.maximum, cp8);
   const minuten = stoeltijd(type, controles);
   return {
@@ -183,6 +184,32 @@ export function uitkomsten() {
       .map(([k, s]) => [k, s.controles, eur(s.cns), eur(s.cp8), eur(s.lab), eur(s.ouders), eur(s.praktijkNetto), uur(s.uren), eur(s.perUur)]),
   ));
   out.push('\n**Kind < 18: CNS 100%; CP8 deels gedekt door CMCM Denta & OptiPlus (max. €500, niet geverifieerd).\n');
+
+  // Sets en adviesprijzen
+  out.push('## Labkosten per aantal sets (incl. btw)\n');
+  out.push(tabel(['Sets totaal', 'Nederland (21%)', 'België (6%)', 'Luxemburg (17%)'],
+    [3, 4, 5].map((n) => [n === 3 ? '3 (inbegrepen)' : String(n), eur(labkosten('aligner', A.nl.btw.waarde, n)), eur(labkosten('aligner', A.be.btw.waarde, n)), eur(labkosten('aligner', A.lu.btw.waarde, n))]),
+  ));
+  const m = A.mrsp;
+  out.push('\n## Adviesprijs (MRSP) per markt, controle elke 11 weken\n');
+  const rij = (land, sets, s, prijs) => [land, sets, eur(prijs), eur(s.ouders), eur(s.praktijkNetto), eur(s.perUur)];
+  const r = [];
+  for (const n of [3, 4]) {
+    const s = nl({ type: 'aligner', maanden: D, intervalWeken: 11, sets: n });
+    r.push(rij('Nederland (NZa-begroting)', n, s, s.patient));
+  }
+  for (const n of [3, 4]) {
+    const extra = labkosten('aligner', A.be.btw.waarde, n) - labkosten('aligner', A.be.btw.waarde, 3);
+    const s = be({ type: 'aligner', maanden: D, intervalWeken: 11, model: 'pakket', pakketprijs: m.be.pakketprijs + extra, sets: n });
+    r.push(rij('België (pakket, niet-geconv.)', n, s, s.factuur));
+  }
+  for (const n of [3, 4]) {
+    const extra = labkosten('aligner', A.lu.btw.waarde, n) - labkosten('aligner', A.lu.btw.waarde, 3);
+    const s = lu({ type: 'aligner', maanden: D, intervalWeken: 11, cp8: m.lu.cp8 + extra, sets: n });
+    r.push(rij('Luxemburg (CNS + CP8)', n, s, s.cp8));
+  }
+  out.push(tabel(['Markt', 'Sets', 'Adviesprijs*', 'Ouders na verzekering', 'Praktijk na lab', 'Per uur'], r));
+  out.push('\n*NL: totale NZa-begroting. BE: all-in pakketprijs; extra set tegen inkoopprijs erbij. LU: CP8-supplement bovenop het CNS-tarief; extra set tegen inkoopprijs erbij.\n');
   return out.join('\n');
 }
 

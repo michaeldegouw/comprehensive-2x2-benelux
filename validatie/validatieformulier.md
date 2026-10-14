@@ -33,6 +33,16 @@ Dit formulier is voor de artsen die de case studies beoordelen. Geef per stellin
 | K-8 | Een gemiddelde Comprehensive-tienercasus duurt ongeveer 18 maanden, een vaste beugel ongeveer 24. | | |
 | K-9 | Welke monitoring op afstand gebruikt u, en hoeveel minuten kost die per patiënt per maand? | | |
 
+## Product en sets (alle landen) – productdocumenten
+
+| ID | Stelling | Antwoord | Opmerking |
+|---|---|---|---|
+| P-1 | Met 1 initiële set + 2 extra sets kan het merendeel van mijn tienercasussen worden afgerond. | | |
+| P-2 | Een behandelduur van maximaal 24 maanden is haalbaar voor de casussen in de kolommen "past goed" en "past, met aandacht". | | |
+| P-3 | De selectietabel (§3 van het productdocument) klopt. Wat zou u verplaatsen? | | |
+| P-4 | De planningstip (eerste set dekt 60–70% van de behandeling) is zinvol. | | |
+| P-5 | Een vierde set à €200 ex btw is in de praktijk zelden nodig. Hoe vaak schat u dat in (in %)? | | |
+
 ## Nederland – [case study NL](../nl/case-study-nl.md)
 
 | ID | Stelling | Antwoord | Opmerking |

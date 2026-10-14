@@ -46,3 +46,24 @@ Pakketprijs aligner (elke 11 wkn) met hetzelfde bedrag per uur als een vaste beu
 
 **Kind < 18: CNS 100%; CP8 deels gedekt door CMCM Denta & OptiPlus (max. €500, niet geverifieerd).
 
+## Labkosten per aantal sets (incl. btw)
+
+| Sets totaal | Nederland (21%) | België (6%) | Luxemburg (17%) |
+|---|---|---|---|
+| 3 (inbegrepen) | € 1.210 | € 1.060 | € 1.170 |
+| 4 | € 1.452 | € 1.272 | € 1.404 |
+| 5 | € 1.694 | € 1.484 | € 1.638 |
+
+## Adviesprijs (MRSP) per markt, controle elke 11 weken
+
+| Markt | Sets | Adviesprijs* | Ouders na verzekering | Praktijk na lab | Per uur |
+|---|---|---|---|---|---|
+| Nederland (NZa-begroting) | 3 | € 2.478 | € 478 | € 1.268 | € 296 |
+| Nederland (NZa-begroting) | 4 | € 2.720 | € 720 | € 1.268 | € 296 |
+| België (pakket, niet-geconv.) | 3 | € 2.750 | € 839 | € 1.690 | € 395 |
+| België (pakket, niet-geconv.) | 4 | € 2.962 | € 924 | € 1.690 | € 395 |
+| Luxemburg (CNS + CP8) | 3 | € 930 | € 430 | € 2.231 | € 521 |
+| Luxemburg (CNS + CP8) | 4 | € 1.164 | € 664 | € 2.231 | € 521 |
+
+*NL: totale NZa-begroting. BE: all-in pakketprijs; extra set tegen inkoopprijs erbij. LU: CP8-supplement bovenop het CNS-tarief; extra set tegen inkoopprijs erbij.
+
