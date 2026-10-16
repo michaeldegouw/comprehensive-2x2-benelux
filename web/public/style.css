@@ -1,0 +1,56 @@
+:root {
+  --ink: #1d2433; --muted: #5b6475; --line: #dfe3ea; --bg: #f4f6f9; --paper: #fff;
+  --accent: #0f5f8c; --accent-soft: #e7f1f7; --good: #1f7a4d; --warn: #8a6100; --bad: #9b1c1c;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 "Segoe UI", system-ui, -apple-system, Arial, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.kop { background: var(--paper); border-bottom: 4px solid var(--accent); padding: 20px 0; }
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: 12px; color: var(--accent); font-weight: 600; }
+h1 { margin: 4px 0; font-size: 26px; }
+.sub { margin: 0; color: var(--muted); }
+.grid { display: grid; grid-template-columns: 400px 1fr; gap: 20px; padding-top: 20px; padding-bottom: 20px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+.invoer fieldset, .invoer details { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; margin: 0 0 12px; }
+legend { font-weight: 700; padding: 0 4px; }
+label { display: block; font-size: 13px; color: var(--muted); margin: 6px 0; }
+label input, label select { display: block; width: 100%; margin-top: 3px; padding: 7px 8px; font: inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 5px; background: #fff; }
+label.check { display: flex; gap: 8px; align-items: center; color: var(--ink); }
+label.check input { width: auto; margin: 0; }
+small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+.rij { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 420px) { .rij { grid-template-columns: 1fr; } }
+.doel { border-color: var(--accent) !important; background: var(--accent-soft) !important; }
+.hint { font-size: 13px; margin: 6px 0 0; }
+.hint.warn { color: var(--warn); }
+summary { cursor: pointer; font-weight: 600; }
+.uitkomst { min-width: 0; }
+.kaart { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+.kaart h2 { margin: 0 0 10px; font-size: 18px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.kpi { background: var(--accent-soft); border-radius: 6px; padding: 12px; }
+.kpi .v { font-size: 22px; font-weight: 700; color: var(--accent); }
+.kpi .l { font-size: 12px; color: var(--muted); }
+.tabel { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: #f7f9fb; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr.hl td { background: var(--accent-soft); font-weight: 600; }
+.plus { color: var(--good); } .min { color: var(--bad); }
+.bar { display: flex; align-items: center; gap: 8px; margin: 5px 0; font-size: 13px; }
+.bar .lbl { width: 150px; flex-shrink: 0; }
+.bar .track { flex: 1; background: #eef1f5; border-radius: 3px; height: 16px; }
+.bar .fill { height: 16px; border-radius: 3px; background: var(--accent); }
+.bar .fill.alt { background: #9aa6b8; }
+.bar .val { width: 64px; text-align: right; font-weight: 600; }
+ul.advies { margin: 0; padding-left: 18px; }
+ul.advies li { margin: 4px 0; }
+.acties { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button { font: inherit; padding: 9px 16px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: #fff; cursor: pointer; }
+button.sec { background: #fff; color: var(--accent); }
+button:disabled { opacity: .5; cursor: default; }
+.melding { font-size: 13px; }
+.voet { color: var(--muted); font-size: 12px; padding-bottom: 30px; }
+.naar { display: none; text-align: center; padding: 10px; background: var(--accent); color: #fff; border-radius: 6px; text-decoration: none; margin-bottom: 12px; }
+@media (max-width: 900px) { .naar { display: block; } }

@@ -8,6 +8,8 @@ Case studies voor artsen in **Nederland, België en Luxemburg**. Ze laten zien h
 
 | Map | Inhoud |
 |---|---|
+| [`web/`](web/README.md) | **Praktijkcalculator als webpagina** met wachtwoord, persoonlijke invoer per praktijk, pdf en verzending naar de praktijk (vertegenwoordiger in cc). Los voorbeeldbestand: [`voorbeeld/praktijkcalculator.html`](voorbeeld/praktijkcalculator.html) |
+| [`onderzoek/align-data-analyse.md`](onderzoek/align-data-analyse.md) | Analyse van de Align-data Benelux: 85% binnen 2x2, 88% bij praktijken met vooral tieners |
 | [`nl/productdocument-nl.md`](nl/productdocument-nl.md), [`be/…`](be/productdocument-be.md), [`lu/…`](lu/productdocument-lu.md) | **Productdocument per markt**: klinische en bedrijfsmatige uitleg van Comprehensive 2x2, adviesprijs (MRSP) en de onderschrijvingspagina voor artsen |
 | [`gedeeld/onderschrijving.md`](gedeeld/onderschrijving.md) | Werkwijze voor de onderschrijving door artsen: wat ze wel en niet tekenen (mededinging), samenstelling van de groep, vergoeding en transparantie per land |
 | [`nl/`](nl/case-study-nl.md) | Case study Nederland: NZa-tarieven, techniekkosten tegen inkoopprijs, F517 alleen in maanden met een bezoek |

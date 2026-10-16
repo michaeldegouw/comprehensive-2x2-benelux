@@ -1,0 +1,331 @@
+{
+ "totaal": {
+  "artsen": 2416.0,
+  "primaire_beh": 212364.0,
+  "geen_AA": 0.2453,
+  "1_AA": 0.3907,
+  "2_AA": 0.2181,
+  "3+_AA": 0.1459,
+  "4+_AA": 0.0616,
+  "binnen_2x2": 0.8541,
+  "AA_per_beh": 1.3748,
+  "AA_binnen_2j": 0.8828
+ },
+ "per_land": {
+  "Belgium": {
+   "artsen": 899.0,
+   "primaire_beh": 78634.0,
+   "geen_AA": 0.2133,
+   "1_AA": 0.3877,
+   "2_AA": 0.2341,
+   "3+_AA": 0.1649,
+   "4+_AA": 0.0708,
+   "binnen_2x2": 0.8351,
+   "AA_per_beh": 1.4778,
+   "AA_binnen_2j": 0.8763
+  },
+  "Luxembourg": {
+   "artsen": 131.0,
+   "primaire_beh": 13731.0,
+   "geen_AA": 0.2118,
+   "1_AA": 0.4055,
+   "2_AA": 0.2309,
+   "3+_AA": 0.1518,
+   "4+_AA": 0.0595,
+   "binnen_2x2": 0.8482,
+   "AA_per_beh": 1.4256,
+   "AA_binnen_2j": 0.9017
+  },
+  "Netherlands": {
+   "artsen": 1386.0,
+   "primaire_beh": 119999.0,
+   "geen_AA": 0.2701,
+   "1_AA": 0.391,
+   "2_AA": 0.2061,
+   "3+_AA": 0.1328,
+   "4+_AA": 0.0559,
+   "binnen_2x2": 0.8672,
+   "AA_per_beh": 1.3015,
+   "AA_binnen_2j": 0.8853
+  }
+ },
+ "per_kanaal": {
+  "GP Comp": {
+   "artsen": 351.0,
+   "primaire_beh": 15647.0,
+   "geen_AA": 0.373,
+   "1_AA": 0.3656,
+   "2_AA": 0.1678,
+   "3+_AA": 0.0935,
+   "4+_AA": 0.0398,
+   "binnen_2x2": 0.9065,
+   "AA_per_beh": 1.0567,
+   "AA_binnen_2j": 0.879
+  },
+  "GP iGo": {
+   "artsen": 1073.0,
+   "primaire_beh": 23804.0,
+   "geen_AA": 0.4166,
+   "1_AA": 0.4015,
+   "2_AA": 0.1561,
+   "3+_AA": 0.0258,
+   "4+_AA": 0.005,
+   "binnen_2x2": 0.9742,
+   "AA_per_beh": 0.7969,
+   "AA_binnen_2j": 0.9947
+  },
+  "Ortho": {
+   "artsen": 992.0,
+   "primaire_beh": 172913.0,
+   "geen_AA": 0.2102,
+   "1_AA": 0.3915,
+   "2_AA": 0.2312,
+   "3+_AA": 0.1672,
+   "4+_AA": 0.0714,
+   "binnen_2x2": 0.8328,
+   "AA_per_beh": 1.4832,
+   "AA_binnen_2j": 0.8748
+  }
+ },
+ "per_teenaandeel": {
+  "<10%": {
+   "artsen": 482.0,
+   "primaire_beh": 25927.0,
+   "geen_AA": 0.3582,
+   "1_AA": 0.4005,
+   "2_AA": 0.1735,
+   "3+_AA": 0.0678,
+   "4+_AA": 0.0254,
+   "binnen_2x2": 0.9322,
+   "AA_per_beh": 0.9958,
+   "AA_binnen_2j": 0.9392
+  },
+  "10-25%": {
+   "artsen": 93.0,
+   "primaire_beh": 16013.0,
+   "geen_AA": 0.2751,
+   "1_AA": 0.4247,
+   "2_AA": 0.2,
+   "3+_AA": 0.1003,
+   "4+_AA": 0.0384,
+   "binnen_2x2": 0.8997,
+   "AA_per_beh": 1.1903,
+   "AA_binnen_2j": 0.923
+  },
+  "25-50%": {
+   "artsen": 140.0,
+   "primaire_beh": 26624.0,
+   "geen_AA": 0.2886,
+   "1_AA": 0.4072,
+   "2_AA": 0.1993,
+   "3+_AA": 0.105,
+   "4+_AA": 0.0405,
+   "binnen_2x2": 0.895,
+   "AA_per_beh": 1.1917,
+   "AA_binnen_2j": 0.9123
+  },
+  ">50%": {
+   "artsen": 203.0,
+   "primaire_beh": 71297.0,
+   "geen_AA": 0.184,
+   "1_AA": 0.3729,
+   "2_AA": 0.2412,
+   "3+_AA": 0.2018,
+   "4+_AA": 0.0889,
+   "binnen_2x2": 0.7982,
+   "AA_per_beh": 1.6222,
+   "AA_binnen_2j": 0.8631
+  }
+ },
+ "ccamix": {
+  "artsen": 2555,
+  "CCA": 28227.0,
+  "Teen": 6288.0,
+  "Growing": 11425.0,
+  "Adult": 16802.0,
+  "MA": 1668.0,
+  "per_land": {
+   "CCA": {
+    "Belgium": 13608.0,
+    "Luxembourg": 2216.0,
+    "Netherlands": 12403.0
+   },
+   "Teen CCA": {
+    "Belgium": 3837.0,
+    "Luxembourg": 545.0,
+    "Netherlands": 1906.0
+   },
+   "Growing Patient CCA": {
+    "Belgium": 7059.0,
+    "Luxembourg": 1033.0,
+    "Netherlands": 3333.0
+   },
+   "Adult CCA": {
+    "Belgium": 6549.0,
+    "Luxembourg": 1183.0,
+    "Netherlands": 9070.0
+   }
+  }
+ },
+ "rejected_rate": {
+  "gewogen": 0.006589435646721225,
+  "digitaal_aandeel": 0.9822864633152655,
+  "pvs_aandeel": 0.017713536684734472
+ },
+ "AA_vs_itero": {
+  "false": {
+   "artsen": 1768.0,
+   "primaire_beh": 75563.0,
+   "3+_AA": 0.1131,
+   "AA_per_beh": 1.2136
+  },
+  "true": {
+   "artsen": 648.0,
+   "primaire_beh": 136801.0,
+   "3+_AA": 0.164,
+   "AA_per_beh": 1.4638
+  }
+ },
+ "AA_vs_Is AOHS User?": {
+  "false": {
+   "artsen": 2011.0,
+   "primaire_beh": 104423.0,
+   "3+_AA": 0.1121,
+   "AA_per_beh": 1.2273
+  },
+  "true": {
+   "artsen": 405.0,
+   "primaire_beh": 107941.0,
+   "3+_AA": 0.1785,
+   "AA_per_beh": 1.5175
+  }
+ },
+ "AA_vs_Is IOSimPro User?": {
+  "false": {
+   "artsen": 2113.0,
+   "primaire_beh": 122355.0,
+   "3+_AA": 0.1119,
+   "AA_per_beh": 1.2131
+  },
+  "true": {
+   "artsen": 303.0,
+   "primaire_beh": 90009.0,
+   "3+_AA": 0.1921,
+   "AA_per_beh": 1.5947
+  }
+ },
+ "AA_vs_Is Smile Video User?": {
+  "false": {
+   "artsen": 2329.0,
+   "primaire_beh": 174463.0,
+   "3+_AA": 0.1253,
+   "AA_per_beh": 1.2873
+  },
+  "true": {
+   "artsen": 87.0,
+   "primaire_beh": 37901.0,
+   "3+_AA": 0.2405,
+   "AA_per_beh": 1.7775
+  }
+ },
+ "AA_vs_IPL": {
+  "<50%": {
+   "artsen": 123.0,
+   "primaire_beh": 36725.0,
+   "3+_AA": 0.199,
+   "AA_per_beh": 1.5967
+  },
+  "50-90%": {
+   "artsen": 181.0,
+   "primaire_beh": 52406.0,
+   "3+_AA": 0.1557,
+   "AA_per_beh": 1.4445
+  },
+  ">90%": {
+   "artsen": 237.0,
+   "primaire_beh": 43671.0,
+   "3+_AA": 0.1697,
+   "AA_per_beh": 1.4631
+  }
+ },
+ "doorlooptijd_per_tool": {
+  "alle": {
+   "artsen": 1072,
+   "CCA": 60762.0,
+   "AMR_naar_CCA_dagen": 17.844281569328807,
+   "CC_MOD": 1.231159374669412
+  },
+  "iTero CCA% >=90%": {
+   "artsen": 483,
+   "CCA": 19663.0,
+   "AMR_naar_CCA_dagen": 17.930316540188556,
+   "CC_MOD": 1.2260956395710894
+  },
+  "iTero CCA% <50%": {
+   "artsen": 517,
+   "CCA": 5838.0,
+   "AMR_naar_CCA_dagen": 23.093926038920856,
+   "CC_MOD": 1.4671176188082835
+  },
+  "IPL% >=90%": {
+   "artsen": 271,
+   "CCA": 9806.0,
+   "AMR_naar_CCA_dagen": 16.310164129271786,
+   "CC_MOD": 1.0991786600542868
+  },
+  "IPL% <50%": {
+   "artsen": 603,
+   "CCA": 10725.0,
+   "AMR_naar_CCA_dagen": 19.05320957317837,
+   "CC_MOD": 1.3930080338463184
+  },
+  "Template% >=90%": {
+   "artsen": 216,
+   "CCA": 3989.0,
+   "AMR_naar_CCA_dagen": 21.023326988775196,
+   "CC_MOD": 1.3049797299362687
+  },
+  "Template% <50%": {
+   "artsen": 698,
+   "CCA": 52531.0,
+   "AMR_naar_CCA_dagen": 17.272152103249844,
+   "CC_MOD": 1.217594540034029
+  },
+  "IPP gebruiker": {
+   "artsen": 176,
+   "CCA": 46545.0,
+   "AMR_naar_CCA_dagen": 16.606980705731186,
+   "CC_MOD": 1.1709683053798101
+  },
+  "geen IPP": {
+   "artsen": 896,
+   "CCA": 14217.0,
+   "AMR_naar_CCA_dagen": 21.90736670381106,
+   "CC_MOD": 1.4309847941577756
+  },
+  "Active VC": {
+   "artsen": 64,
+   "CCA": 36857.0,
+   "AMR_naar_CCA_dagen": 17.210111583543735,
+   "CC_MOD": 1.2318826593077434
+  }
+ },
+ "aa_orders": {
+  "rijen": 149980,
+  "free_paid": {
+   "Free": 0.9843,
+   "Paid": 0.0157,
+   "Error": 0.0
+  },
+  "stages_mediaan": 14.0,
+  "stages_gem": 18.647753033737832,
+  "per_jaar": {
+   "2019": 3613.0,
+   "2020": 16117.0,
+   "2021": 32069.0,
+   "2022": 43025.0,
+   "2023": 47217.0,
+   "2024": 7939.0
+  }
+ }
+}

@@ -1,0 +1,8 @@
+# Ruwe Align-exports en prijslijsten bevatten klant- en persoonsgegevens: nooit committen.
+*.xlsx
+*.xls
+*.csv
+data/ruw/
+node_modules/
+.wrangler/
+.dev.vars

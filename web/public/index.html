@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Praktijkcalculator Comprehensive 2x2</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="kop">
+  <div class="wrap">
+    <div class="eyebrow">Invisalign · Benelux</div>
+    <h1>Praktijkcalculator</h1>
+    <p class="sub">Wat aligners en Comprehensive 2x2 voor tieners betekenen voor uw praktijk, per uur, per jaar en voor de ouders. Concept, ter validatie.</p>
+  </div>
+</header>
+
+<main class="wrap grid">
+<form id="form" class="invoer" autocomplete="off">
+
+  <fieldset>
+    <legend>1. Praktijk</legend>
+    <label>Praktijknaam <input name="praktijk" placeholder="Orthodontiepraktijk …"></label>
+    <label>Contactpersoon <input name="contact" placeholder="Dr. …"></label>
+    <label>E-mail praktijk <input name="emailPraktijk" type="email" placeholder="info@praktijk.nl"></label>
+    <div class="rij">
+      <label>Land
+        <select name="land"><option value="NL">Nederland</option><option value="BE">België</option><option value="LU">Luxemburg</option></select>
+      </label>
+      <label>Type praktijk
+        <select name="type"><option value="ortho">Orthodontist</option><option value="gp">Tandarts (GP)</option></select>
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Vertegenwoordiger</legend>
+    <div class="rij">
+      <label>Naam <input name="rep"></label>
+      <label>E-mail (cc) <input name="emailRep" type="email"></label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>3. Capaciteit</legend>
+    <div class="rij">
+      <label>Stoelen voor orthodontie <input name="stoelen" type="number" min="1" step="1" value="3"></label>
+      <label>Dagen per week <input name="dagenPerWeek" type="number" min="1" max="7" step="0.5" value="4"></label>
+    </div>
+    <div class="rij">
+      <label>Uren per dag <input name="urenPerDag" type="number" min="1" max="14" step="0.5" value="8"></label>
+      <label>Werkweken per jaar <input name="wekenPerJaar" type="number" min="30" max="52" value="46"></label>
+    </div>
+    <div class="rij">
+      <label>Deel stoeltijd voor orthodontie (%) <input name="orthoAandeel" type="number" min="1" max="100" value="100"></label>
+      <label>Kosten per stoeluur (€) <input name="kostenPerStoeluur" type="number" min="0" step="5" value="150">
+        <small>Personeel, huisvesting, apparatuur. Schatting van de praktijk.</small></label>
+    </div>
+    <label class="check"><input name="wachtlijst" type="checkbox"> Er is een wachtlijst voor nieuwe patiënten</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>4. Patiënten</legend>
+    <div class="rij">
+      <label>Nieuwe orthodontische starts per jaar <input name="startsPerJaar" type="number" min="1" value="150"></label>
+      <label>Waarvan tieners (≤ 19 jaar) (%) <input name="aandeelTieners" type="number" min="0" max="100" value="70"></label>
+    </div>
+    <div class="rij">
+      <label>Tieners nu met aligners (%) <input name="tienersAlignerNu" type="number" min="0" max="100" value="15"></label>
+      <label>Volwassenen met aligners (%) <input name="volwAlignerNu" type="number" min="0" max="100" value="60"></label>
+    </div>
+    <div class="rij">
+      <label>Behandelduur vaste beugel (mnd) <input name="duurVast" type="number" min="6" max="48" value="24"></label>
+      <label>Behandelduur aligners (mnd) <input name="duurAligner" type="number" min="3" max="36" value="18"></label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>5. Huidige werkwijze</legend>
+    <div class="rij">
+      <label>Controle-interval vaste beugel (weken) <input name="intervalVast" type="number" min="2" max="16" step="0.5" value="5"></label>
+      <label>Controle-interval aligners (weken) <input name="intervalAlignerNu" type="number" min="2" max="16" step="0.5" value="6"></label>
+    </div>
+    <label class="check"><input name="opAfstandNu" type="checkbox"> Monitoring op afstand of consult op afstand in gebruik</label>
+    <label class="check"><input name="itero" type="checkbox" checked> iTero intraorale scanner voor (vrijwel) alle cases</label>
+    <label class="check"><input name="ipp" type="checkbox"> Invisalign Personalized Plan (IPP) of IPL-templates in gebruik</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>6. Invisalign</legend>
+    <label>Huidige korting-tier <select name="tier"></select></label>
+    <div class="rij">
+      <label>Product nu voor tieners
+        <select name="productTienersNu"><option value="c3x3">Comprehensive 3x3</option><option value="unlimited">Comprehensive unlimited</option><option value="moderate">Moderate</option></select>
+      </label>
+      <label>Product volwassenen
+        <select name="productVolw"><option value="c3x3">Comprehensive 3x3</option><option value="unlimited">Comprehensive unlimited</option><option value="c2x2volw">Comprehensive 2x2 volwassenen</option><option value="moderate">Moderate</option><option value="lite">Lite</option></select>
+      </label>
+    </div>
+    <label>Materiaalkosten vaste beugel per behandeling (€) <input name="materiaalVast" type="number" min="0" value="240"></label>
+  </fieldset>
+
+  <fieldset data-land="NL">
+    <legend>7. Vergoeding (Nederland)</legend>
+    <div class="rij">
+      <label>Aanvullende polis: vergoeding (%) <input name="polisPct" type="number" min="0" max="100" value="100"></label>
+      <label>Maximum (€) <input name="polisMax" type="number" min="0" step="50" value="2000"></label>
+    </div>
+    <small>Honorarium volgens NZa-tarieven 2026; techniekkosten tegen inkoopprijs.</small>
+  </fieldset>
+
+  <fieldset data-land="BE">
+    <legend>7. Honoraria (België)</legend>
+    <label>Statuut
+      <select name="beModel"><option value="eigen">Niet-geconventioneerd: eigen pakketprijzen</option><option value="max">Geconventioneerd: maximumtarieven 2026</option></select>
+    </label>
+    <div class="rij">
+      <label>Pakketprijs vaste beugel (€) <input name="prijsVast" type="number" min="0" step="50" value="3500"></label>
+      <label>Pakketprijs aligners tieners (€) <input name="prijsAligner" type="number" min="0" step="50" value="2750"><small>Adviesprijs Align: €2.750 (vrijblijvend).</small></label>
+    </div>
+  </fieldset>
+
+  <fieldset data-land="LU">
+    <legend>7. Honoraria (Luxemburg)</legend>
+    <label>Supplement CP8 aligners (€) <input name="cp8" type="number" min="0" step="10" value="930"><small>Advies Align: materiaalverschil ±€930 (vrijblijvend).</small></label>
+  </fieldset>
+
+  <fieldset class="doel">
+    <legend>8. Scenario</legend>
+    <div class="rij">
+      <label>Tieners met aligners in het scenario (%) <input name="tienersAlignerDoel" type="number" min="0" max="100" value="40"></label>
+      <label>Controle-interval aligners (weken) <input name="intervalAlignerDoel" type="number" min="4" max="16" step="0.5" value="11"></label>
+    </div>
+    <label class="check"><input name="opAfstandDoel" type="checkbox" checked> Met monitoring op afstand tussen de bezoeken</label>
+    <p class="hint" id="hintInterval"></p>
+  </fieldset>
+
+  <details>
+    <summary>Aannames stoeltijd en tools aanpassen</summary>
+    <div class="rij">
+      <label>Controle vaste beugel (min) <input name="st_vast_controle" type="number" value="20"></label>
+      <label>Controle aligner (min) <input name="st_aligner_controle" type="number" value="15"></label>
+    </div>
+    <div class="rij">
+      <label>Start vaste beugel (min) <input name="st_vast_start" type="number" value="75"></label>
+      <label>Start aligner (min) <input name="st_aligner_start" type="number" value="45"></label>
+    </div>
+    <div class="rij">
+      <label>Winst per scan t.o.v. PVS (min) <input name="minutenPerAfdrukBespaard" type="number" value="0"></label>
+      <label>Tijd per ClinCheck-modificatie (min) <input name="minutenPerModificatie" type="number" value="15"></label>
+    </div>
+  </details>
+  <a class="naar" href="#resultaat">Naar de uitkomst ↓</a>
+</form>
+
+<section class="uitkomst" id="resultaat">
+  <div id="uitkomst" aria-live="polite"></div>
+  <div class="kaart">
+    <h2>6. Versturen</h2>
+    <div class="acties">
+      <button type="button" id="pdf" class="sec">PDF downloaden</button>
+      <button type="button" id="mail" disabled>Verstuur naar praktijk</button>
+      <span class="melding" id="melding"></span>
+    </div>
+    <small>De pdf gaat naar het e-mailadres van de praktijk, met de vertegenwoordiger in cc.</small>
+  </div>
+</section>
+</main>
+
+<footer class="wrap voet">
+  <p>Concept voor validatie. Tarieven: NZa 2026 / RIZIV 1-1-2026 / CNS 01-06-2026, nog niet in de officiële bron gecontroleerd. Prijzen: Invisalign-prijslijsten 1 maart – 31 december 2026; bindend zijn de prijzen op de Invisalign Doctor Site. Adviesprijzen zijn vrijblijvend: elke praktijk bepaalt haar eigen tarieven. Klinische keuzes blijven aan de behandelaar.</p>
+</footer>
+
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/jspdf.plugin.autotable.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
