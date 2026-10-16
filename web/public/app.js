@@ -36,24 +36,26 @@ function invoer() {
     nlPolis: { percentage: n('polisPct') / 100, maximum: n('polisMax') },
     be: { model: f.beModel.value, prijsVast: n('prijsVast'), prijsAligner: n('prijsAligner') },
     lu: { cp8: n('cp8') },
-    tienersAlignerDoel: n('tienersAlignerDoel'), intervalAlignerDoel: n('intervalAlignerDoel'), opAfstandDoel: f.opAfstandDoel.checked,
+    tienersAlignerDoel: n('tienersAlignerDoel'), extraAdoptie: n('extraAdoptie'), intervalAlignerDoel: n('intervalAlignerDoel'), opAfstandDoel: f.opAfstandDoel.checked,
     aannames: { minutenPerAfdrukBespaard: n('minutenPerAfdrukBespaard'), minutenPerModificatie: n('minutenPerModificatie') },
     stoeltijd,
   };
 }
 
 function adviezen(inv, r) {
-  const a = [];
+  const a = [], A = r.A, B = r.B;
   if (inv.intervalAlignerDoel > 8 && !inv.opAfstandDoel) a.push('Een interval van meer dan 8 weken adviseren we alleen met monitoring op afstand tussen de bezoeken.');
   if (inv.intervalAlignerDoel >= 10) a.push('Plan de eerste controle 4–6 weken na de start. Ga pas daarna naar 10–12 weken, als pasvorm, draagdiscipline en attachments in orde zijn. Kort het interval in bij IPR, elastieken, groeisturing of matige draagdiscipline.');
-  if (r.doel.bezetting > 0.85 || inv.wachtlijst) a.push(`De vrijgekomen ${getal(r.vrij)} stoeluren per jaar zijn direct te gebruiken voor ongeveer ${getal(r.extraStarts)} extra starts, of om de wachtlijst in te korten.`);
-  else if (r.vrij > 0) a.push(`Het scenario maakt ${getal(r.vrij)} stoeluren per jaar vrij (${pct(r.vrij / r.capaciteit)} van de capaciteit voor orthodontie). Die zijn te gebruiken voor nieuwe patiënten, of voor kortere werkdagen.`);
-  if (inv.productTienersNu !== 'c2x2teen' && r.besparingLab > 0) {
-    a.push(inv.land === 'NL'
-      ? `Comprehensive 2x2 verlaagt de techniekkosten voor tieners. Omdat de praktijk die tegen inkoopprijs doorberekent, betalen ouders samen ±${eur(r.besparingLab)} per jaar minder.`
-      : `Comprehensive 2x2 verlaagt de labkosten voor tieners met ±${eur(r.besparingLab)} per jaar ten opzichte van het huidige product.`);
-  }
-  if (inv.land === 'BE' && inv.be.model === 'max') a.push('Bij de maximumtarieven moeten de labkosten binnen het plafond worden opgevangen. Plan minimaal 6 zittingen voor het tweede apparatuurforfait.');
+  if (A.vrij > 0) a.push(`Meer aligners en een langer interval maken ${getal(A.vrij)} stoeluren per jaar vrij. Daarmee zijn ongeveer ${getal(A.extraStarts)} extra starts mogelijk${inv.wachtlijst ? ', of kan de wachtlijst korter' : ''}.`);
+  if (B.labVerschil > 0) {
+    if (inv.land === 'NL') a.push(`Met Comprehensive 2x2 betalen ouders ${eur(B.labVerschil)} minder per tienerbehandeling. De techniekkosten worden tegen inkoopprijs doorberekend. Daardoor ligt de alignerbehandeling nog ${eur(Math.abs(B.verschilMetVast))} ${B.verschilMetVast >= 0 ? 'boven' : 'onder'} de prijs van een blokjesbeugel.`);
+    if (inv.land === 'BE' && inv.be.model === 'max') a.push(`Bij de maximumtarieven blijft de prijs voor het gezin gelijk. Met Comprehensive 2x2 houdt de praktijk ${eur(B.labVerschil)} per tienerbehandeling meer over.`);
+    else if (inv.land === 'BE') a.push(`Met Comprehensive 2x2 kan de prijs voor tieners omlaag van ${eur(inv.be.prijsAligner)} naar ${eur(B.met2x2.alT.omzet)}, terwijl de praktijk per behandeling evenveel overhoudt. Dat is ${eur(Math.abs(B.verschilMetVast))} ${B.verschilMetVast >= 0 ? 'boven' : 'onder'} uw prijs voor een blokjesbeugel.`);
+    if (inv.land === 'LU') a.push(B.labVerschil >= inv.lu.cp8
+      ? `Met Comprehensive 2x2 kan het CP8-supplement voor tieners vervallen (nu ${eur(inv.lu.cp8)}): de CNS vergoedt dan de hele behandeling, en de praktijk houdt toch ${eur(B.labVerschil - inv.lu.cp8)} per behandeling meer over.`
+      : `Met Comprehensive 2x2 kan het CP8-supplement voor tieners omlaag van ${eur(inv.lu.cp8)} naar ${eur(inv.lu.cp8 - B.labVerschil)}, terwijl de praktijk evenveel overhoudt.`);
+  } else a.push('Bij uw tier is Comprehensive 2x2 niet goedkoper dan het huidige product. Kies per casus het pakket met de laagste verwachte labkosten.');
+  if (inv.land === 'BE' && inv.be.model === 'max') a.push('Bij de maximumtarieven moeten de labkosten binnen het plafond worden opgevangen. 2x2 verlaagt die kosten direct. Plan minimaal 6 zittingen voor het tweede apparatuurforfait.');
   if (inv.land === 'LU') a.push('Vermeld het CP8-supplement apart op de offerte voor de CMSS, en laat de ouders vooraf schriftelijk akkoord geven.');
   return a;
 }
@@ -67,86 +69,87 @@ function render() {
   hint.textContent = inv.intervalAlignerDoel > 8 && !inv.opAfstandDoel ? 'Let op: langer dan 8 weken alleen met monitoring op afstand.' : '';
   hint.className = 'hint' + (hint.textContent ? ' warn' : '');
 
-  const d = r.doel, n = r.nu;
+  const { A, B } = r; const n = A.nu, al = A.aligners, m = B.met2x2;
   const verschil = (a, b, f = eur) => `<span class="${a - b >= 0 ? 'plus' : 'min'}">${a - b >= 0 ? '+' : '−'}${f(Math.abs(a - b))}</span>`;
-  const maxUur = Math.max(n.vast.perUur, d.alT.perUur, n.alT.perUur);
-  const bar = (lbl, v, alt) => `<div class="bar"><div class="lbl">${lbl}</div><div class="track"><div class="fill ${alt ? 'alt' : ''}" style="width:${Math.max(4, (v / maxUur) * 100)}%"></div></div><div class="val">${eur(v)}</div></div>`;
+  const bars = (rijen) => { const mx = Math.max(...rijen.map((x) => x[1])); return rijen.map(([l, v, hl, f]) => `<div class="bar"><div class="lbl">${l}</div><div class="track"><div class="fill ${hl ? '' : 'alt'}" style="width:${Math.max(4, (v / mx) * 100)}%"></div></div><div class="val">${(f || eur)(v)}</div></div>`).join(''); };
   const profiel = ALIGN_DATA.tienerMeerderheid, tot = ALIGN_DATA.totaal;
+  const prijsLabel = inv.land === 'NL' ? 'Totaalprijs (NZa-honorarium + techniekkosten)' : inv.land === 'BE' ? 'Prijs voor het gezin' : 'Totaal (CNS-tarief + CP8)';
 
   uit.innerHTML = `
   <div class="kaart">
     <h2>${esc(inv.praktijkNaam || 'Uw praktijk')} · ${L}</h2>
     <div class="kpis">
-      <div class="kpi"><div class="v">${getal(r.vrij)} u</div><div class="l">stoeltijd per jaar vrij</div></div>
-      <div class="kpi"><div class="v">+${getal(r.extraStarts)}</div><div class="l">extra starts mogelijk in dezelfde tijd</div></div>
-      <div class="kpi"><div class="v">${eur(d.perUur)}</div><div class="l">netto per stoeluur (nu ${eur(n.perUur)})</div></div>
-      <div class="kpi"><div class="v">${eur(d.alT.ouders)}</div><div class="l">eigen bijdrage ouders, tiener met aligners</div></div>
+      <div class="kpi"><div class="v">${getal(A.vrij)} u</div><div class="l">stoeltijd per jaar vrij met aligners</div></div>
+      <div class="kpi"><div class="v">+${getal(A.extraStarts)}</div><div class="l">extra starts mogelijk in dezelfde tijd</div></div>
+      <div class="kpi"><div class="v">${eur(B.labVerschil)}</div><div class="l">lagere labkosten per tiener met 2x2</div></div>
+      <div class="kpi"><div class="v">${B.verschilMetVast >= 0 ? '+' : '−'}${eur(Math.abs(B.verschilMetVast))}</div><div class="l">prijsverschil aligner 2x2 met blokjesbeugel</div></div>
     </div>
   </div>
 
   <div class="kaart">
-    <h2>1. Praktijk per jaar: nu en in het scenario</h2>
+    <h2>A. Aligners en de bedrijfsvoering</h2>
+    <p>Dit geldt voor elk Invisalign-product: minder bezoeken, minder spoedbezoeken en minder stoeltijd per bezoek. Gerekend met uw huidige product en prijs.</p>
     <div class="tabel"><table>
-      <tr><th></th><th class="n">Nu</th><th class="n">Scenario</th><th class="n">Verschil</th></tr>
+      <tr><th>Per behandeling</th><th class="n">Vaste beugel</th><th class="n">Aligners</th></tr>
+      <tr><td>Controlebezoeken in de praktijk</td><td class="n">${al.vast.controles}</td><td class="n">${al.alT.controles}${al.alT.afstand ? ` (+ ${al.alT.afstand} op afstand)` : ''}</td></tr>
+      <tr><td>Spoedbezoeken (gemiddeld, Borda 2020)</td><td class="n">${getal(inv.stoeltijd.vast.aantalSpoed, 1)}</td><td class="n">${getal(inv.stoeltijd.aligner.aantalSpoed, 1)}</td></tr>
+      <tr><td>Stoel- en artsentijd</td><td class="n">${getal(al.vast.uren, 1)} u</td><td class="n">${getal(al.alT.uren, 1)} u</td></tr>
+      <tr><td>Netto voor de praktijk (na lab)</td><td class="n">${eur(al.vast.netto)}</td><td class="n">${eur(al.alT.netto)}</td></tr>
+      <tr class="hl"><td>Netto per stoeluur</td><td class="n">${eur(al.vast.perUur)}</td><td class="n">${eur(al.alT.perUur)}</td></tr>
+    </table></div>
+    ${bars([['Vaste beugel', al.vast.uren, false, (x) => getal(x, 1) + ' u'], ['Aligners', al.alT.uren, true, (x) => getal(x, 1) + ' u']])}
+    <div class="tabel"><table>
+      <tr><th>Per jaar</th><th class="n">Nu</th><th class="n">Meer aligners</th><th class="n">Verschil</th></tr>
       <tr><td>Tieners met aligners</td><td class="n">${pct(inv.tienersAlignerNu / 100)}</td><td class="n">${pct(inv.tienersAlignerDoel / 100)}</td><td></td></tr>
       <tr><td>Controle-interval aligners</td><td class="n">${getal(inv.intervalAlignerNu, 1)} wk</td><td class="n">${getal(inv.intervalAlignerDoel, 1)} wk</td><td></td></tr>
-      <tr><td>Stoel- en artsentijd orthodontie</td><td class="n">${getal(n.uren)} u</td><td class="n">${getal(d.uren)} u</td><td class="n">${verschil(d.uren, n.uren, (x) => getal(x) + ' u')}</td></tr>
-      <tr><td>Bezetting capaciteit (${getal(r.capaciteit)} u)</td><td class="n">${pct(n.bezetting)}</td><td class="n">${pct(d.bezetting)}</td><td></td></tr>
-      <tr><td>Netto honorarium (na labkosten)</td><td class="n">${eur(n.netto)}</td><td class="n">${eur(d.netto)}</td><td class="n">${verschil(d.netto, n.netto)}</td></tr>
-      <tr><td>Netto per stoeluur</td><td class="n">${eur(n.perUur)}</td><td class="n">${eur(d.perUur)}</td><td class="n">${verschil(d.perUur, n.perUur)}</td></tr>
-      <tr><td>Marge na stoelkosten (${eur(inv.kostenPerStoeluur)}/u)</td><td class="n">${eur(n.marge)}</td><td class="n">${eur(d.marge)}</td><td class="n">${verschil(d.marge, n.marge)}</td></tr>
-      <tr class="hl"><td>+ vrijgekomen uren ingezet voor ${getal(r.extraStarts)} extra tieners met aligners</td><td></td><td class="n">${eur(d.netto + r.extraNetto)}</td><td class="n">${verschil(d.netto + r.extraNetto, n.netto)}</td></tr>
+      <tr><td>Stoel- en artsentijd orthodontie</td><td class="n">${getal(n.uren)} u</td><td class="n">${getal(al.uren)} u</td><td class="n">${verschil(al.uren, n.uren, (x) => getal(x) + ' u')}</td></tr>
+      <tr><td>Bezetting capaciteit (${getal(r.capaciteit)} u)</td><td class="n">${pct(n.bezetting)}</td><td class="n">${pct(al.bezetting)}</td><td></td></tr>
+      <tr><td>Netto honorarium</td><td class="n">${eur(n.netto)}</td><td class="n">${eur(al.netto)}</td><td class="n">${verschil(al.netto, n.netto)}</td></tr>
+      <tr><td>Netto per stoeluur</td><td class="n">${eur(n.perUur)}</td><td class="n">${eur(al.perUur)}</td><td class="n">${verschil(al.perUur, n.perUur)}</td></tr>
+      <tr class="hl"><td>Vrijgekomen tijd ingezet voor ${getal(A.extraStarts)} extra starts</td><td class="n">${eur(n.netto)}</td><td class="n">${eur(al.netto + A.extraNetto)}</td><td class="n">${verschil(al.netto + A.extraNetto, n.netto)}</td></tr>
     </table></div>
-    <small>Gelijk aantal starts in beide situaties; alleen de mix en het interval veranderen. ${inv.land === 'NL' ? 'In Nederland gaan de techniekkosten tegen inkoopprijs naar de patiënt; netto = honorarium.' : ''}</small>
+    <small>Gelijk aantal starts; alleen de verhouding vaste beugel/aligners en het interval veranderen. Stoeltijdaannames zijn aanpasbaar onderaan het formulier.</small>
   </div>
 
   <div class="kaart">
-    <h2>2. Per behandeling: waarom aligners per uur meer opleveren</h2>
-    <p>Dit geldt voor elk Invisalign-product. De winst komt uit minder bezoeken, minder spoedbezoeken en minder stoeltijd per bezoek.</p>
+    <h2>B. Comprehensive 2x2: de beste keuze voor tieners</h2>
+    <p>${inv.land === 'NL' ? 'In Nederland gaan de techniekkosten tegen inkoopprijs naar de patiënt. Het lagere labbedrag komt dus direct bij de ouders terecht, en de alignerbehandeling komt bijna op de prijs van een blokjesbeugel.' : 'De praktijk houdt per behandeling hetzelfde over, maar kan de prijs voor tieners verlagen met het verschil in labkosten. Zo worden aligners voor meer gezinnen betaalbaar.'}</p>
     <div class="tabel"><table>
-      <tr><th></th><th class="n">Vaste beugel</th><th class="n">Aligner, nu</th><th class="n">2x2, scenario</th></tr>
-      <tr><td>Controlebezoeken</td><td class="n">${n.vast.controles}</td><td class="n">${n.alT.controles}</td><td class="n">${d.alT.controles}${d.alT.afstand ? ` + ${d.alT.afstand} op afstand` : ''}</td></tr>
-      <tr><td>Stoel- en artsentijd</td><td class="n">${getal(n.vast.uren, 1)} u</td><td class="n">${getal(n.alT.uren, 1)} u</td><td class="n">${getal(d.alT.uren, 1)} u</td></tr>
-      <tr><td>Totaalprijs (honorarium + lab)</td><td class="n">${eur(n.vast.omzet)}</td><td class="n">${eur(n.alT.omzet)}</td><td class="n">${eur(d.alT.omzet)}</td></tr>
-      <tr><td>Labkosten</td><td class="n">${eur(n.vast.lab)}</td><td class="n">${eur(n.alT.lab)}</td><td class="n">${eur(d.alT.lab)}</td></tr>
-      <tr><td>Netto voor de praktijk</td><td class="n">${eur(n.vast.netto)}</td><td class="n">${eur(n.alT.netto)}</td><td class="n">${eur(d.alT.netto)}</td></tr>
-      <tr class="hl"><td>Netto per uur</td><td class="n">${eur(n.vast.perUur)}</td><td class="n">${eur(n.alT.perUur)}</td><td class="n">${eur(d.alT.perUur)}</td></tr>
-      <tr><td>Eigen bijdrage ouders</td><td class="n">${eur(n.vast.ouders)}</td><td class="n">${eur(n.alT.ouders)}</td><td class="n">${eur(d.alT.ouders)}</td></tr>
+      <tr><th>Per tiener</th><th class="n">Blokjesbeugel</th><th class="n">Aligners, ${esc(PRODUCTEN[inv.productTienersNu].naam.split(' (')[0])}</th><th class="n">Aligners, 2x2</th></tr>
+      <tr><td>Labkosten</td><td class="n">${eur(m.vast.lab)}</td><td class="n">${eur(B.labHuidig)}</td><td class="n">${eur(B.lab2x2)}</td></tr>
+      <tr class="hl"><td>${prijsLabel}</td><td class="n">${eur(m.vast.omzet)}</td><td class="n">${eur(al.alT.omzet)}</td><td class="n">${eur(m.alT.omzet)}</td></tr>
+      <tr><td>Eigen bijdrage ouders na vergoeding</td><td class="n">${eur(m.vast.ouders)}</td><td class="n">${eur(al.alT.ouders)}</td><td class="n">${eur(m.alT.ouders)}</td></tr>
+      <tr><td>Netto voor de praktijk</td><td class="n">${eur(m.vast.netto)}</td><td class="n">${eur(al.alT.netto)}</td><td class="n">${eur(m.alT.netto)}</td></tr>
     </table></div>
-    ${bar('Vaste beugel', n.vast.perUur, true)}${bar('Aligner, nu', n.alT.perUur, true)}${bar('2x2, scenario', d.alT.perUur)}
-  </div>
+    ${bars([['Blokjesbeugel', m.vast.omzet], ['Aligners nu', al.alT.omzet], ['Aligners 2x2', m.alT.omzet, true]])}
+    <p>Per jaar: ${getal(m.tienersAligner)} tieners met 2x2 betalen samen <strong>${eur(B.besparingOuders)}</strong> minder${B.extraTieners > 0 ? `, en bij ${inv.extraAdoptie}%-punt meer keuze voor aligners zijn dat ${getal(B.extraTieners)} tieners extra` : ''}.</p>
 
-  <div class="kaart">
-    <h2>3. Comprehensive 2x2 past bij tieners</h2>
-    <p>De initiële set plus 2 extra sets, af binnen 2 jaar. Wat de Align-data voor de Benelux laat zien:</p>
+    <h3>Past 2x2 bij de behandeling? De Align-data Benelux</h3>
     <div class="tabel"><table>
       <tr><th>Benodigde extra sets</th><th class="n">Alle praktijken</th><th class="n">Praktijken met &gt;50% tieners</th></tr>
-      <tr><td>0 of 1 extra set</td><td class="n">${pct(tot.geen + tot.een)}</td><td class="n">${pct(1 - profiel.twee - profiel.driePlus)}</td></tr>
-      <tr><td>2 extra sets</td><td class="n">${pct(tot.twee)}</td><td class="n">${pct(profiel.twee)}</td></tr>
-      <tr class="hl"><td>Binnen Comprehensive 2x2</td><td class="n">${pct(1 - tot.driePlus)}</td><td class="n">${pct(1 - profiel.driePlus)}</td></tr>
-      <tr><td>3 of meer extra sets (€200 per set)</td><td class="n">${pct(tot.driePlus)}</td><td class="n">${pct(profiel.driePlus)}</td></tr>
+      <tr><td>0 of 1</td><td class="n">${pct(tot.geen + tot.een)}</td><td class="n">${pct(1 - profiel.twee - profiel.driePlus)}</td></tr>
+      <tr><td>2</td><td class="n">${pct(tot.twee)}</td><td class="n">${pct(profiel.twee)}</td></tr>
+      <tr class="hl"><td>Binnen 2x2</td><td class="n">${pct(1 - tot.driePlus)}</td><td class="n">${pct(1 - profiel.driePlus)}</td></tr>
+      <tr><td>3 of meer (€200 per extra set)</td><td class="n">${pct(tot.driePlus)}</td><td class="n">${pct(profiel.driePlus)}</td></tr>
     </table></div>
-    <small>${ALIGN_DATA.bron}. ${getal(tot.behandelingen)} behandelingen bij ${getal(tot.artsen)} artsen; ${pct(tot.binnen2j)} van de extra sets binnen 2 jaar. Indeling naar tienersaandeel per arts, niet per patiënt.</small>
-    <p><strong>Uit de literatuur:</strong> bij tieners hadden aligners 15,7 tegenover 21,3 afspraken en 0,4 tegenover 1,0 spoedbezoeken, met een gelijk resultaat (PAR) en minder witte vlekken (Oki 2026). In een studie met matige tot ernstige casussen waren er 16 tegenover 24 bezoeken (Chou 2023). Kanttekening: één Amerikaanse praktijkstudie vond gemiddeld ±2,5 refinements per behandeling (Kravitz 2023). Selecteer complexe casussen daarom bewust.</p>
+    <small>${ALIGN_DATA.bron}. ${getal(tot.behandelingen)} behandelingen bij ${getal(tot.artsen)} artsen; ${pct(tot.binnen2j)} van de extra sets binnen 2 jaar. Ingedeeld naar het aandeel tieners per arts, niet per patiënt.</small>
     <div class="tabel"><table>
       <tr><th>Labkosten per tiener bij uw tier</th><th class="n">Prijs</th><th class="n">Verwacht incl. extra sets</th></tr>
-      ${r.productvergelijking.map((p) => `<tr class="${p.product === 'c2x2teen' ? 'hl' : ''}"><td>${p.naam}</td><td class="n">${eur(p.prijs)}</td><td class="n">${eur(p.verwacht)}</td></tr>`).join('')}
+      ${B.productvergelijking.map((p) => `<tr class="${p.product === 'c2x2teen' ? 'hl' : ''}"><td>${p.naam}</td><td class="n">${eur(p.prijs)}</td><td class="n">${eur(p.verwacht)}</td></tr>`).join('')}
     </table></div>
-    <small>Verwacht voor 2x2: gemiddeld ${getal(0.281, 2)} extra sets per behandeling (ondergrens, uit de Align-data voor praktijken met vooral groeiende patiënten).</small>
+    <p><strong>Klinisch, bij tieners:</strong> 15,7 tegenover 21,3 afspraken en 0,4 tegenover 1,0 spoedbezoeken met aligners, met een gelijk resultaat (PAR) en minder witte vlekken (Oki 2026). Bij matige tot ernstige casussen 16 tegenover 24 bezoeken (Chou 2023). Kanttekening: één Amerikaanse praktijkstudie vond gemiddeld ±2,5 refinements (Kravitz 2023). Selecteer complexe casussen bewust.</p>
   </div>
 
   <div class="kaart">
-    <h2>4. Kansen met digitale tools</h2>
+    <h2>Kansen met digitale tools</h2>
     ${r.kansen.length ? `<ul class="advies">${r.kansen.map((k) => `<li><strong>${k.tool}</strong>${k.uren ? ` · ±${getal(k.uren)} u/jaar` : ''}<br>${k.tekst}</li>`).join('')}</ul>` : '<p>Alle tools in de calculator worden al gebruikt.</p>'}
-    <small>Align-data: verband, geen bewezen oorzaak. Praktijken die tools gebruiken verschillen ook op andere punten, zoals volume en ervaring.</small>
+    <small>Align-data: verband, geen bewezen oorzaak.</small>
   </div>
 
   <div class="kaart">
-    <h2>5. Advies</h2>
+    <h2>Advies</h2>
     <ul class="advies">${adviezen(inv, r).map((x) => `<li>${x}</li>`).join('')}</ul>
-  </div>
-
-`;
+  </div>`;
   const knop = document.getElementById('mail');
   knop.disabled = !inv.emailPraktijk;
   knop.textContent = `Verstuur naar ${inv.emailPraktijk || 'praktijk'}${inv.emailRep ? ' (cc ' + inv.emailRep + ')' : ''}`;
@@ -178,36 +181,40 @@ function maakPdf() {
     y = doc.lastAutoTable.finalY;
     if (y > 250) { doc.addPage(); y = 14; }
   };
-  const d = r.doel, n = r.nu;
+  const { A, B } = r; const n = A.nu, al = A.aligners, m = B.met2x2;
   tabel('Kerncijfers', ['', 'Waarde'], [
-    ['Stoeltijd per jaar vrij', `${getal(r.vrij)} uur`],
-    ['Extra starts mogelijk in dezelfde tijd', getal(r.extraStarts)],
-    ['Netto per stoeluur', `${eur(d.perUur)} (nu ${eur(n.perUur)})`],
-    ['Eigen bijdrage ouders, tiener met aligners', eur(d.alT.ouders)],
+    ['Stoeltijd per jaar vrij met aligners', `${getal(A.vrij)} uur`],
+    ['Extra starts mogelijk in dezelfde tijd', getal(A.extraStarts)],
+    ['Lagere labkosten per tiener met 2x2', eur(B.labVerschil)],
+    ['Prijsverschil aligner 2x2 met blokjesbeugel', eur(B.verschilMetVast)],
   ]);
-  tabel('Praktijk per jaar', ['', 'Nu', 'Scenario', 'Verschil'], [
+  tabel('A. Aligners en de bedrijfsvoering, per behandeling', ['', 'Vaste beugel', 'Aligners'], [
+    ['Controlebezoeken', al.vast.controles, al.alT.controles],
+    ['Spoedbezoeken', getal(inv.stoeltijd.vast.aantalSpoed, 1), getal(inv.stoeltijd.aligner.aantalSpoed, 1)],
+    ['Stoel- en artsentijd', `${getal(al.vast.uren, 1)} u`, `${getal(al.alT.uren, 1)} u`],
+    ['Netto voor de praktijk', eur(al.vast.netto), eur(al.alT.netto)],
+    ['Netto per stoeluur', eur(al.vast.perUur), eur(al.alT.perUur)],
+  ]);
+  tabel('A. Per jaar', ['', 'Nu', 'Meer aligners', 'Verschil'], [
     ['Tieners met aligners', pct(inv.tienersAlignerNu / 100), pct(inv.tienersAlignerDoel / 100), ''],
     ['Controle-interval aligners', `${getal(inv.intervalAlignerNu, 1)} wk`, `${getal(inv.intervalAlignerDoel, 1)} wk`, ''],
-    ['Stoel- en artsentijd', `${getal(n.uren)} u`, `${getal(d.uren)} u`, `${getal(d.uren - n.uren)} u`],
-    ['Bezetting', pct(n.bezetting), pct(d.bezetting), ''],
-    ['Netto honorarium', eur(n.netto), eur(d.netto), eur(d.netto - n.netto)],
-    ['Netto per stoeluur', eur(n.perUur), eur(d.perUur), eur(d.perUur - n.perUur)],
-    [`Met ${getal(r.extraStarts)} extra starts`, '', eur(d.netto + r.extraNetto), eur(d.netto + r.extraNetto - n.netto)],
+    ['Stoel- en artsentijd', `${getal(n.uren)} u`, `${getal(al.uren)} u`, `${getal(al.uren - n.uren)} u`],
+    ['Netto honorarium', eur(n.netto), eur(al.netto), eur(al.netto - n.netto)],
+    ['Netto per stoeluur', eur(n.perUur), eur(al.perUur), eur(al.perUur - n.perUur)],
+    [`Met ${getal(A.extraStarts)} extra starts`, eur(n.netto), eur(al.netto + A.extraNetto), eur(al.netto + A.extraNetto - n.netto)],
   ]);
-  tabel('Per behandeling', ['', 'Vaste beugel', 'Aligner, nu', '2x2, scenario'], [
-    ['Controlebezoeken', n.vast.controles, n.alT.controles, d.alT.controles],
-    ['Stoel- en artsentijd', `${getal(n.vast.uren, 1)} u`, `${getal(n.alT.uren, 1)} u`, `${getal(d.alT.uren, 1)} u`],
-    ['Totaalprijs', eur(n.vast.omzet), eur(n.alT.omzet), eur(d.alT.omzet)],
-    ['Netto voor de praktijk', eur(n.vast.netto), eur(n.alT.netto), eur(d.alT.netto)],
-    ['Netto per uur', eur(n.vast.perUur), eur(n.alT.perUur), eur(d.alT.perUur)],
-    ['Eigen bijdrage ouders', eur(n.vast.ouders), eur(n.alT.ouders), eur(d.alT.ouders)],
+  tabel('B. Comprehensive 2x2 voor tieners, per behandeling', ['', 'Blokjesbeugel', 'Aligners nu', 'Aligners 2x2'], [
+    ['Labkosten', eur(m.vast.lab), eur(B.labHuidig), eur(B.lab2x2)],
+    ['Prijs voor het gezin', eur(m.vast.omzet), eur(al.alT.omzet), eur(m.alT.omzet)],
+    ['Eigen bijdrage na vergoeding', eur(m.vast.ouders), eur(al.alT.ouders), eur(m.alT.ouders)],
+    ['Netto voor de praktijk', eur(m.vast.netto), eur(al.alT.netto), eur(m.alT.netto)],
   ]);
   const t = ALIGN_DATA.totaal, p = ALIGN_DATA.tienerMeerderheid;
-  tabel('Comprehensive 2x2 past bij tieners (Align-data Benelux)', ['', 'Alle praktijken', '>50% tieners'], [
+  tabel('B. Past binnen 2x2 (Align-data Benelux)', ['', 'Alle praktijken', '>50% tieners'], [
     ['Binnen 2x2 (≤ 2 extra sets)', pct(1 - t.driePlus), pct(1 - p.driePlus)],
     ['3 of meer extra sets', pct(t.driePlus), pct(p.driePlus)],
   ]);
-  tabel('Labkosten per tiener bij uw tier', ['Product', 'Prijs', 'Verwacht'], r.productvergelijking.map((x) => [x.naam, eur(x.prijs), eur(x.verwacht)]));
+  tabel('B. Labkosten per tiener bij uw tier', ['Product', 'Prijs', 'Verwacht'], B.productvergelijking.map((x) => [x.naam, eur(x.prijs), eur(x.verwacht)]));
   doc.setFontSize(12); doc.setTextColor(...blauw); doc.text('Advies', 14, (y += 9)); doc.setTextColor(29, 36, 51); doc.setFontSize(9);
   for (const a of [...adviezen(inv, r), ...r.kansen.map((k) => `${k.tool}: ${k.tekst}`)]) {
     const regels = doc.splitTextToSize('• ' + pdfTekst(a), 182);

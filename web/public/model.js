@@ -77,48 +77,66 @@ export function behandeling(land, s) {
   return { controles: n, afstand, omzet, lab, netto, uren: u, perUur: netto / u, vergoeding, ouders: Math.max(0, omzet - vergoeding) };
 }
 
-// Volledige praktijkberekening: huidige situatie tegenover het voorgestelde scenario.
+// Volledige praktijkberekening in twee delen.
+// A: aligners tegenover vaste beugel (bedrijfsvoering) – product gelijk aan het huidige.
+// B: Comprehensive 2x2 als productkeuze voor tieners – lagere labkosten worden doorgegeven in de prijs.
 export function praktijk(inv) {
   const land = inv.land;
   const capaciteit = inv.stoelen * inv.dagenPerWeek * inv.urenPerDag * inv.wekenPerJaar * (inv.orthoAandeel / 100);
   const tieners = inv.startsPerJaar * (inv.aandeelTieners / 100);
   const volw = inv.startsPerJaar - tieners;
+  const labHuidig = labkosten(land, 'aligner', inv.productTienersNu, inv.tier);
+  const lab2x2 = labkosten(land, 'aligner', 'c2x2teen', inv.tier);
+  const labVerschil = labHuidig - lab2x2; // per tienerbehandeling
 
-  function scenario(alignerTieners, alignerVolw, intervalAligner, opAfstand, productTieners) {
-    const basis = { opAfstand, be: inv.be, lu: inv.lu, nlPolis: inv.nlPolis, stoeltijd: inv.stoeltijd };
-    const vast = behandeling(land, { ...basis, type: 'vast', maanden: inv.duurVast, interval: inv.intervalVast, lab: inv.materiaalVast });
-    const alT = behandeling(land, { ...basis, type: 'aligner', maanden: inv.duurAligner, interval: intervalAligner,
-      lab: labkosten(land, 'aligner', productTieners, inv.tier) });
-    const alV = behandeling(land, { ...basis, type: 'aligner', maanden: inv.duurAligner, interval: intervalAligner,
-      lab: labkosten(land, 'aligner', inv.productVolw, inv.tier) });
+  function scenario({ alignerTieners, interval, opAfstand, product }) {
+    const met2x2 = product === 'c2x2teen';
+    // In BE en LU geeft de praktijk het labverschil door in de prijs: gelijke marge, lagere prijs.
+    const beT = { ...inv.be, prijsAligner: met2x2 ? inv.be.prijsAligner - labVerschil : inv.be.prijsAligner };
+    const luT = { cp8: met2x2 ? Math.max(0, inv.lu.cp8 - labVerschil) : inv.lu.cp8 };
+    const basis = { opAfstand, nlPolis: inv.nlPolis, stoeltijd: inv.stoeltijd };
+    const vast = behandeling(land, { ...basis, be: inv.be, lu: inv.lu, type: 'vast', maanden: inv.duurVast, interval: inv.intervalVast, lab: inv.materiaalVast });
+    const alT = behandeling(land, { ...basis, be: beT, lu: luT, type: 'aligner', maanden: inv.duurAligner, interval,
+      lab: met2x2 ? lab2x2 : labHuidig });
+    const alV = behandeling(land, { ...basis, be: { ...inv.be, prijsAligner: inv.be.prijsAlignerVolw ?? inv.be.prijsAligner }, lu: inv.lu,
+      type: 'aligner', maanden: inv.duurAligner, interval, lab: labkosten(land, 'aligner', inv.productVolw, inv.tier) });
     const groepen = [
       { naam: 'Tieners – vaste beugel', aantal: tieners * (1 - alignerTieners / 100), b: vast },
       { naam: 'Tieners – aligners', aantal: tieners * (alignerTieners / 100), b: alT },
-      { naam: 'Volwassenen – vaste beugel', aantal: volw * (1 - alignerVolw / 100), b: vast },
-      { naam: 'Volwassenen – aligners', aantal: volw * (alignerVolw / 100), b: alV },
+      { naam: 'Volwassenen – vaste beugel', aantal: volw * (1 - inv.volwAlignerNu / 100), b: vast },
+      { naam: 'Volwassenen – aligners', aantal: volw * (inv.volwAlignerNu / 100), b: alV },
     ];
     const tot = (f) => som(groepen.map((g) => g.aantal * f(g.b)));
     const r = { groepen, vast, alT, alV, uren: tot((b) => b.uren), netto: tot((b) => b.netto), omzet: tot((b) => b.omzet), lab: tot((b) => b.lab) };
     r.perUur = r.netto / r.uren;
     r.bezetting = r.uren / capaciteit;
     r.marge = r.netto - r.uren * inv.kostenPerStoeluur;
+    r.tienersAligner = tieners * (alignerTieners / 100);
     return r;
   }
 
-  const nu = scenario(inv.tienersAlignerNu, inv.volwAlignerNu, inv.intervalAlignerNu, inv.opAfstandNu, inv.productTienersNu);
-  const doel = scenario(inv.tienersAlignerDoel, inv.volwAlignerNu, inv.intervalAlignerDoel, inv.opAfstandDoel, 'c2x2teen');
-  const vrij = nu.uren - doel.uren;
-  const extraStarts = vrij > 0 ? vrij / doel.alT.uren : 0;
-  const extraNetto = extraStarts * doel.alT.netto;
+  // A. Bedrijfsvoering
+  const nu = scenario({ alignerTieners: inv.tienersAlignerNu, interval: inv.intervalAlignerNu, opAfstand: inv.opAfstandNu, product: inv.productTienersNu });
+  const aligners = scenario({ alignerTieners: inv.tienersAlignerDoel, interval: inv.intervalAlignerDoel, opAfstand: inv.opAfstandDoel, product: inv.productTienersNu });
+  const vrij = nu.uren - aligners.uren;
+  const extraStarts = vrij > 0 ? vrij / aligners.alT.uren : 0;
+  const A = { nu, aligners, vrij, extraStarts, extraNetto: extraStarts * aligners.alT.netto };
 
-  // Productkeuze tieners: labkosten per behandeling bij het eigen tier.
+  // B. Comprehensive 2x2 voor tieners
+  const doelB = Math.min(100, inv.tienersAlignerDoel + inv.extraAdoptie);
+  const met2x2 = scenario({ alignerTieners: doelB, interval: inv.intervalAlignerDoel, opAfstand: inv.opAfstandDoel, product: 'c2x2teen' });
   const productvergelijking = ['c2x2teen', 'c3x3', 'unlimited'].map((p) => ({
     product: p, naam: PRODUCTEN[p].naam, prijs: productprijs(land, p, inv.tier), verwacht: labkosten(land, 'aligner', p, inv.tier),
   }));
-  const tienerAligners = tieners * (inv.tienersAlignerDoel / 100);
-  const besparingLab = tienerAligners * (labkosten(land, 'aligner', inv.productTienersNu, inv.tier) - labkosten(land, 'aligner', 'c2x2teen', inv.tier));
+  const B = {
+    met2x2, labHuidig, lab2x2, labVerschil, doelB, productvergelijking,
+    besparingOuders: met2x2.tienersAligner * (aligners.alT.omzet - met2x2.alT.omzet),
+    verschilMetVast: met2x2.alT.omzet - met2x2.vast.omzet,
+    verschilMetVastHuidig: aligners.alT.omzet - aligners.vast.omzet,
+    extraTieners: met2x2.tienersAligner - aligners.tienersAligner,
+  };
 
-  return { capaciteit, tieners, volw, nu, doel, vrij, extraStarts, extraNetto, productvergelijking, besparingLab, kansen: kansen(inv, doel) };
+  return { capaciteit, tieners, volw, A, B, kansen: kansen(inv, aligners) };
 }
 
 // Kansen met digitale tools: indicatie van tijdwinst per jaar (aannames instelbaar).

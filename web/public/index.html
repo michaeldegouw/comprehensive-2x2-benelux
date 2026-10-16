@@ -12,7 +12,7 @@
   <div class="wrap">
     <div class="eyebrow">Invisalign · Benelux</div>
     <h1>Praktijkcalculator</h1>
-    <p class="sub">Wat aligners en Comprehensive 2x2 voor tieners betekenen voor uw praktijk, per uur, per jaar en voor de ouders. Concept, ter validatie.</p>
+    <p class="sub">A. Wat aligners opleveren voor de bedrijfsvoering. B. Waarom Comprehensive 2x2 de beste keuze is voor tieners. Concept, ter validatie.</p>
   </div>
 </header>
 
@@ -117,13 +117,13 @@
     </label>
     <div class="rij">
       <label>Pakketprijs vaste beugel (€) <input name="prijsVast" type="number" min="0" step="50" value="3500"></label>
-      <label>Pakketprijs aligners tieners (€) <input name="prijsAligner" type="number" min="0" step="50" value="2750"><small>Adviesprijs Align: €2.750 (vrijblijvend).</small></label>
+      <label>Huidige prijs aligners tieners (€) <input name="prijsAligner" type="number" min="0" step="50" value="4500"><small>Met het huidige product. Met 2x2 kan deze prijs omlaag met het labverschil.</small></label>
     </div>
   </fieldset>
 
   <fieldset data-land="LU">
     <legend>7. Honoraria (Luxemburg)</legend>
-    <label>Supplement CP8 aligners (€) <input name="cp8" type="number" min="0" step="10" value="930"><small>Advies Align: materiaalverschil ±€930 (vrijblijvend).</small></label>
+    <label>Huidig supplement CP8 aligners tieners (€) <input name="cp8" type="number" min="0" step="10" value="1500"><small>Met het huidige product. Met 2x2 kan dit supplement omlaag met het labverschil.</small></label>
   </fieldset>
 
   <fieldset class="doel">
@@ -133,6 +133,7 @@
       <label>Controle-interval aligners (weken) <input name="intervalAlignerDoel" type="number" min="4" max="16" step="0.5" value="11"></label>
     </div>
     <label class="check"><input name="opAfstandDoel" type="checkbox" checked> Met monitoring op afstand tussen de bezoeken</label>
+    <label>Extra tieners die voor aligners kiezen door de lagere prijs met 2x2 (%-punt) <input name="extraAdoptie" type="number" min="0" max="100" value="10"><small>Inschatting van de praktijk.</small></label>
     <p class="hint" id="hintInterval"></p>
   </fieldset>
 
@@ -157,7 +158,7 @@
 <section class="uitkomst" id="resultaat">
   <div id="uitkomst" aria-live="polite"></div>
   <div class="kaart">
-    <h2>6. Versturen</h2>
+    <h2>Versturen</h2>
     <div class="acties">
       <button type="button" id="pdf" class="sec">PDF downloaden</button>
       <button type="button" id="mail" disabled>Verstuur naar praktijk</button>

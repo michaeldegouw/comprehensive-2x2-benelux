@@ -8,7 +8,7 @@ Een webpagina waarop een vertegenwoordiger samen met de praktijk de gegevens inv
 |---|---|
 | `public/index.html`, `style.css` | Invulformulier en resultaatweergave |
 | `public/data.js` | Prijslijsten 2026, NZa/RIZIV/CNS-tarieven, Align-benchmarks (geaggregeerd), standaardaannames |
-| `public/model.js` | Rekenmodel (pure functies) |
+| `public/model.js` | Rekenmodel (pure functies). Deel A: aligners tegenover vaste beugel, met het huidige product. Deel B: Comprehensive 2x2 voor tieners; het labverschil gaat in NL via de techniekkosten en in BE/LU via een lagere prijs of een lager supplement naar de ouders |
 | `public/app.js` | Weergave, pdf (jsPDF, lokaal in `vendor/`) en versturen |
 | `worker.js`, `wrangler.jsonc` | Cloudflare Worker: wachtwoord en pdf mailen via Resend |
 | `build-voorbeeld.mjs` | Maakt `../voorbeeld/praktijkcalculator.html`: één los bestand om te bekijken. **Zonder wachtwoord en zonder mail.** |
