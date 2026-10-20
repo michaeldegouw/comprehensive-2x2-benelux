@@ -1,5 +1,5 @@
 // Rekenmodel praktijkcalculator. Pure functies, geen DOM.
-import { PRODUCTEN, EXTRA_SET_EX_BTW, TIERS, LANDEN, TARIEVEN, ALIGN_DATA, STOELTIJD } from './data.js';
+import { PRODUCTEN, EXTRA_SET_EX_BTW, TIERS, LANDEN, TARIEVEN, ALIGN_DATA, STOELTIJD, TIER_DREMPELS_NL } from './data.js';
 
 const WEKEN_PER_MAAND = 52 / 12;
 const som = (xs) => xs.reduce((a, b) => a + b, 0);
@@ -161,3 +161,74 @@ export function kansen(inv, doel) {
   }
   return k;
 }
+
+// C. Invisalign tegenover een andere aligner: volledige rekensom per jaar.
+// De prijzen en voorzieningen van de andere leverancier worden door de praktijk ingevuld.
+export function vergelijking(inv, r) {
+  const c = inv.concurrent;
+  if (!(c.prijs > 0)) return null;
+  const land = inv.land;
+  const al = r.A.aligners;
+  const tienerCases = r.B.met2x2.tienersAligner, volwCases = r.volw * (inv.volwAlignerNu / 100);
+  const cases = tienerCases + volwCases;
+  const aa = ALIGN_DATA.perLand[land].aaPerBehandeling;
+  // Tieners met Comprehensive 2x2 (vaste prijs), volwassenen met het gekozen product bij de eigen tier.
+  const labTiener = r.B.lab2x2, labVolw = labkosten(land, 'aligner', inv.productVolw, inv.tier);
+  const invisalign = cases > 0 ? (tienerCases * labTiener + volwCases * labVolw) / cases : labVolw;
+  const extraRefConcurrent = Math.max(0, aa - c.refinementsInbegrepen) * c.prijsRefinement;
+  const concurrent = c.prijs + extraRefConcurrent;
+  const meerkosten = (invisalign - concurrent) * cases;
+  const uurwaarde = inv.kostenPerStoeluur;
+  const D = ALIGN_DATA.digitaal;
+  const posten = [];
+  const heeft = (id) => c.voorzieningen.includes(id);
+  if (!heeft('monitoring') && inv.opAfstandDoel) {
+    const bezoeken = c.bezoekenMinderMetMonitoring; // per case, Hansa 2020/2021: 2,3–3,5
+    posten.push({ naam: 'Minder bezoeken door monitoring op afstand', bedrag: cases * bezoeken * (inv.stoeltijd.aligner.controle / 60) * uurwaarde,
+      bron: `${getalNl(bezoeken, 1)} bezoeken per case (Hansa 2020: −2,3; Hansa 2021: −3,5) × ${inv.stoeltijd.aligner.controle} min × €${uurwaarde}/u` });
+  }
+  if (!heeft('templates') || !heeft('liveupdate')) {
+    const mods = D.ipp.modsZonder - D.ipp.modsMet;
+    posten.push({ naam: 'Minder aanpassingen aan het behandelplan (IPP, Live Update)', bedrag: cases * mods * (inv.aannames.minutenPerModificatie / 60) * uurwaarde,
+      bron: `${getalNl(mods, 2)} modificaties per case minder (Align-data Benelux, verband) × ${inv.aannames.minutenPerModificatie} min` });
+  }
+  if (!heeft('simulator')) {
+    posten.push({ naam: 'Meer patiënten die starten na visualisatie', bedrag: c.adviesgesprekken * (c.conversieExtra / 100) * al.alT.netto,
+      bron: `${c.adviesgesprekken} adviesgesprekken × ${c.conversieExtra}%-punt meer starts × netto per case (inschatting praktijk)` });
+  }
+  if (!heeft('leads') && c.extraLeads > 0) {
+    posten.push({ naam: 'Patiënten via consumentencampagnes en Doctor Locator', bedrag: c.extraLeads * (c.leadConversie / 100) * al.alT.netto,
+      bron: `${c.extraLeads} aanvragen × ${c.leadConversie}% start × netto per case (inschatting praktijk)` });
+  }
+  if (r.B.labVerschil > 0 && !c.heeftTienerprijs) {
+    posten.push({ naam: 'Comprehensive 2x2 tegen vaste prijs voor tieners', bedrag: 0, info: true,
+      bron: 'Zie deel B: lagere prijs voor ouders bij gelijke marge.' });
+  }
+  const voordeel = posten.reduce((a, p) => a + p.bedrag, 0);
+  // NL: techniekkosten gaan tegen inkoopprijs naar de patiënt, dus een labverschil raakt de patiënt, niet de praktijk.
+  const viaPatient = land === 'NL';
+  return { cases, tienerCases, volwCases, labTiener, labVolw, invisalign, concurrent, extraRefConcurrent, meerkosten, viaPatient, posten, voordeel,
+    netto: viaPatient ? voordeel : voordeel - meerkosten, breakEvenPerCase: cases > 0 ? voordeel / cases : 0 };
+}
+
+// D. Groeien met Invisalign: volgende kortingstier (NL op basis van cases per jaar).
+export function groei(inv, r) {
+  const land = inv.land;
+  const casesPerJaar = r.B.met2x2.tienersAligner + r.volw * (inv.volwAlignerNu / 100); // zelfde scenario als deel B en C
+  // Comprehensive 2x2 voor tieners heeft een vaste prijs; de tierkorting telt voor de overige cases.
+  const aandeelMetKorting = casesPerJaar > 0 ? (r.volw * (inv.volwAlignerNu / 100)) / casesPerJaar : 0;
+  const tiers = TIERS[land];
+  let huidig = tiers.findIndex((t) => t.id === inv.tier);
+  if (huidig < 0) huidig = 0;
+  // NL: tier volgt uit het aantal cases; meld als de ingevulde tier lager is dan het volume rechtvaardigt.
+  const tierVolgensVolume = land === 'NL' ? TIER_DREMPELS_NL.filter((d) => casesPerJaar >= d).length - 1 : null;
+  const volgende = tiers[huidig + 1];
+  if (!volgende) return { casesPerJaar, volgende: null, tierVolgensVolume };
+  const drempel = land === 'NL' ? TIER_DREMPELS_NL[huidig + 1] : inv.drempelVolgendeTier || null;
+  const prijsNu = productprijs(land, inv.productVolw, inv.tier);
+  const prijsVolgend = productprijs(land, inv.productVolw, volgende.id);
+  return { casesPerJaar, volgende, drempel, tierVolgensVolume, huidigIndex: huidig, nodig: drempel ? Math.max(0, drempel - casesPerJaar) : null,
+    besparingPerCase: prijsNu - prijsVolgend, besparingPerJaar: (prijsNu - prijsVolgend) * Math.max(casesPerJaar, drempel || 0) * aandeelMetKorting };
+}
+
+const getalNl = (x, d = 0) => x.toLocaleString('nl-NL', { maximumFractionDigits: d, minimumFractionDigits: d });

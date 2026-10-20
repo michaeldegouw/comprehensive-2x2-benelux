@@ -1,5 +1,5 @@
-import { praktijk } from './model.js';
-import { TIERS, LANDEN, ALIGN_DATA, STOELTIJD, PRODUCTEN } from './data.js';
+import { praktijk, vergelijking, groei } from './model.js';
+import { TIERS, LANDEN, ALIGN_DATA, STOELTIJD, PRODUCTEN, SEGMENTEN, VOORZIENINGEN } from './data.js';
 
 const form = document.getElementById('form');
 const uit = document.getElementById('uitkomst');
@@ -16,6 +16,7 @@ function vulTiers() {
   sel.innerHTML = TIERS[land].map((t) => `<option value="${t.id}">${t.naam} (${pct(t.korting)} korting)</option>`).join('');
   if ([...sel.options].some((o) => o.value === oud)) sel.value = oud;
   document.querySelectorAll('fieldset[data-land]').forEach((f) => { f.hidden = f.dataset.land !== land; });
+  document.querySelectorAll('[data-land-niet]').forEach((f) => { f.hidden = f.dataset.landNiet === land; });
 }
 
 function invoer() {
@@ -39,6 +40,11 @@ function invoer() {
     tienersAlignerDoel: n('tienersAlignerDoel'), extraAdoptie: n('extraAdoptie'), intervalAlignerDoel: n('intervalAlignerDoel'), opAfstandDoel: f.opAfstandDoel.checked,
     aannames: { minutenPerAfdrukBespaard: n('minutenPerAfdrukBespaard'), minutenPerModificatie: n('minutenPerModificatie') },
     stoeltijd,
+    segment: f.segment.value, drempelVolgendeTier: n('drempelVolgendeTier'),
+    concurrent: { naam: f.cNaam.value.trim(), prijs: n('cPrijs'), refinementsInbegrepen: n('cRef'), prijsRefinement: n('cRefPrijs'),
+      voorzieningen: [...document.querySelectorAll('#cVoorzieningen input:checked')].map((x) => x.value),
+      adviesgesprekken: n('cGesprekken'), conversieExtra: n('cConversie'), extraLeads: n('cLeads'), leadConversie: n('cLeadConv'),
+      bezoekenMinderMetMonitoring: n('cMonBezoeken'), heeftTienerprijs: f.cTienerprijs.checked },
   };
 }
 
@@ -56,6 +62,20 @@ function adviezen(inv, r) {
       : `Met Comprehensive 2x2 kan het CP8-supplement voor tieners omlaag van ${eur(inv.lu.cp8)} naar ${eur(inv.lu.cp8 - B.labVerschil)}, terwijl de praktijk evenveel overhoudt.`);
   } else a.push('Bij uw tier is Comprehensive 2x2 niet goedkoper dan het huidige product. Kies per casus het pakket met de laagste verwachte labkosten.');
   if (inv.land === 'BE' && inv.be.model === 'max') a.push('Bij de maximumtarieven moeten de labkosten binnen het plafond worden opgevangen. 2x2 verlaagt die kosten direct. Plan minimaal 6 zittingen voor het tweede apparatuurforfait.');
+  const C = vergelijking(inv, r), G = groei(inv, r);
+  if (C) a.push(C.netto >= 0
+    ? (C.viaPatient ? `Ten opzichte van ${inv.concurrent.naam || 'de andere leverancier'} levert Invisalign de praktijk ±${eur(C.netto)} per jaar op aan tijdwinst en extra starts. De labprijs gaat via de techniekkosten naar de patiënt.`
+      : `Ten opzichte van ${inv.concurrent.naam || 'de andere leverancier'} levert Invisalign onderaan de streep ±${eur(C.netto)} per jaar meer op, ondanks ${C.meerkosten >= 0 ? eur(C.meerkosten) + ' hogere' : eur(-C.meerkosten) + ' lagere'} labkosten.`)
+    : `Ten opzichte van ${inv.concurrent.naam || 'de andere leverancier'} is Invisalign met deze invoer ±${eur(-C.netto)} per jaar duurder. Bekijk welke voorzieningen de praktijk nog niet gebruikt.`);
+  if (G.drempel && G.nodig > 0 && G.nodig <= 0.25 * G.casesPerJaar) a.push(`Met ±${getal(G.nodig)} extra cases per jaar bereikt de praktijk ${G.volgende.naam}.`);
+  const seg = SEGMENTEN.findIndex((x) => x.id === inv.segment), volgendSeg = SEGMENTEN[Math.max(seg + 1, 3)];
+  if (volgendSeg && volgendSeg.id !== inv.segment) {
+    const tips = [];
+    if (!inv.tools.itero && volgendSeg.itero > 0.4) tips.push('iTero');
+    if (!inv.tools.ipp) tips.push('IPP-templates');
+    if (!inv.opAfstandDoel) tips.push('monitoring op afstand');
+    if (tips.length) a.push(`Praktijken in het segment ${volgendSeg.naam} gebruiken vaker ${tips.join(', ')}. Dat zijn logische volgende stappen.`);
+  }
   if (inv.land === 'LU') a.push('Vermeld het CP8-supplement apart op de offerte voor de CMSS, en laat de ouders vooraf schriftelijk akkoord geven.');
   return a;
 }
@@ -70,6 +90,8 @@ function render() {
   hint.className = 'hint' + (hint.textContent ? ' warn' : '');
 
   const { A, B } = r; const n = A.nu, al = A.aligners, m = B.met2x2;
+  const C = vergelijking(inv, r), G = groei(inv, r);
+  laatste.C = C; laatste.G = G;
   const verschil = (a, b, f = eur) => `<span class="${a - b >= 0 ? 'plus' : 'min'}">${a - b >= 0 ? '+' : '−'}${f(Math.abs(a - b))}</span>`;
   const bars = (rijen) => { const mx = Math.max(...rijen.map((x) => x[1])); return rijen.map(([l, v, hl, f]) => `<div class="bar"><div class="lbl">${l}</div><div class="track"><div class="fill ${hl ? '' : 'alt'}" style="width:${Math.max(4, (v / mx) * 100)}%"></div></div><div class="val">${(f || eur)(v)}</div></div>`).join(''); };
   const profiel = ALIGN_DATA.tienerMeerderheid, tot = ALIGN_DATA.totaal;
@@ -138,6 +160,40 @@ function render() {
       ${B.productvergelijking.map((p) => `<tr class="${p.product === 'c2x2teen' ? 'hl' : ''}"><td>${p.naam}</td><td class="n">${eur(p.prijs)}</td><td class="n">${eur(p.verwacht)}</td></tr>`).join('')}
     </table></div>
     <p><strong>Klinisch, bij tieners:</strong> 15,7 tegenover 21,3 afspraken en 0,4 tegenover 1,0 spoedbezoeken met aligners, met een gelijk resultaat (PAR) en minder witte vlekken (Oki 2026). Bij matige tot ernstige casussen 16 tegenover 24 bezoeken (Chou 2023). Kanttekening: één Amerikaanse praktijkstudie vond gemiddeld ±2,5 refinements (Kravitz 2023). Selecteer complexe casussen bewust.</p>
+  </div>
+
+  <div class="kaart">
+    <h2>C. Invisalign tegenover ${esc(inv.concurrent.naam || 'een andere aligner')}</h2>
+    ${!C ? '<p>Vul in het formulier (9) de prijs in die de praktijk bij de andere leverancier betaalt. Dan rekent de calculator het volledige verschil uit: de labprijs, de refinements en wat de voorzieningen van Invisalign opleveren in tijd en patiënten.</p>' : `
+    <div class="tabel"><table>
+      <tr><th>Per aligner-case</th><th class="n">Invisalign</th><th class="n">${esc(inv.concurrent.naam || 'Andere leverancier')}</th></tr>
+      <tr><td>Labprijs tieners (Comprehensive 2x2, ${getal(C.tienerCases)} per jaar)</td><td class="n">${eur(C.labTiener)}</td><td class="n">${eur(inv.concurrent.prijs)}</td></tr>
+      <tr><td>Labprijs volwassenen (${esc(PRODUCTEN[inv.productVolw].naam.split(' (')[0])}, uw tier, ${getal(C.volwCases)} per jaar)</td><td class="n">${eur(C.labVolw)}</td><td class="n">${eur(inv.concurrent.prijs)}</td></tr>
+      <tr><td>Verwachte extra refinements (gem. ${getal(ALIGN_DATA.perLand[inv.land].aaPerBehandeling, 1)} per case)</td><td class="n">inbegrepen</td><td class="n">${eur(C.extraRefConcurrent)}</td></tr>
+      <tr class="hl"><td>Gemiddeld per case</td><td class="n">${eur(C.invisalign)}</td><td class="n">${eur(C.concurrent)}</td></tr>
+    </table></div>
+    <div class="tabel"><table>
+      <tr><th>Per jaar (${getal(C.cases)} aligner-cases)</th><th class="n">Bedrag</th></tr>
+      ${C.viaPatient ? '' : `<tr><td>${C.meerkosten >= 0 ? 'Meerkosten' : 'Lagere kosten'} labprijs Invisalign</td><td class="n">${C.meerkosten >= 0 ? '−' : '+'}${eur(Math.abs(C.meerkosten))}</td></tr>`}
+      ${C.posten.filter((p) => !p.info).map((p) => `<tr><td>${p.naam}<br><small>${p.bron}</small></td><td class="n">+${eur(p.bedrag)}</td></tr>`).join('')}
+      <tr class="hl"><td>Netto onderaan de streep</td><td class="n">${C.netto >= 0 ? '+' : '−'}${eur(Math.abs(C.netto))}</td></tr>
+    </table></div>
+    ${C.viaPatient ? `<p>In Nederland gaan de techniekkosten tegen inkoopprijs naar de patiënt. Het labverschil raakt dus niet de praktijk, maar de patiënt: gemiddeld ${C.meerkosten >= 0 ? eur(C.meerkosten / C.cases) + ' meer' : eur(-C.meerkosten / C.cases) + ' minder'} per behandeling. Met Comprehensive 2x2 blijft dat voor tieners beperkt.</p>` : ''}
+    <p>Invisalign mag per case <strong>${eur(C.breakEvenPerCase)}</strong> duurder zijn dan de andere leverancier en levert de praktijk dan nog evenveel op.${C.posten.some((p) => p.info) ? ' Daarbovenop komt de vaste tienerprijs van Comprehensive 2x2 (deel B).' : ''}</p>
+    <small>Alleen voorzieningen die de andere leverancier volgens de praktijk niet biedt, worden meegeteld. Tijd gewaardeerd tegen ${eur(inv.kostenPerStoeluur)} per stoeluur. Inschattingen van de praktijk staan bij de post vermeld.</small>`}
+  </div>
+
+  <div class="kaart">
+    <h2>D. Groeien met Invisalign</h2>
+    ${G.tierVolgensVolume !== null && G.tierVolgensVolume > G.huidigIndex ? `<p class="hint warn">Met ±${getal(G.casesPerJaar)} cases per jaar hoort de praktijk volgens de prijslijst in ${esc(TIERS.NL[G.tierVolgensVolume].naam)}. Controleer de ingevulde tier.</p>` : ''}
+    ${G.volgende ? `<p>Met ±${getal(G.casesPerJaar)} aligner-cases per jaar zit de praktijk in <strong>${esc(TIERS[inv.land].find((t) => t.id === inv.tier)?.naam)}</strong>.
+      ${G.drempel ? `Nog ±${getal(G.nodig)} cases per jaar tot <strong>${esc(G.volgende.naam)}</strong>: ${eur(G.besparingPerCase)} lagere labprijs per case (${esc(PRODUCTEN[inv.productVolw].naam.split(' (')[0])}), ±${eur(G.besparingPerJaar)} per jaar. Comprehensive 2x2 voor tieners heeft altijd de vaste prijs.` : `Volgende tier: ${esc(G.volgende.naam)} (${eur(G.besparingPerCase)} lagere labprijs per case). Vul het aantal cases voor de volgende tier in.`}</p>` : '<p>De praktijk zit in de hoogste tier.</p>'}
+    <h3>Wat doen praktijken in een hoger segment anders?</h3>
+    <div class="tabel"><table>
+      <tr><th>Segment (Benelux)</th><th class="n">Cases per arts per jaar</th><th class="n">iTero</th><th class="n">Outcome Simulator Pro</th><th class="n">Oral Health Suite</th><th class="n">Groeiprogramma</th></tr>
+      ${SEGMENTEN.filter((x) => x.id !== 'lapsed').map((x) => `<tr class="${x.id === inv.segment ? 'hl' : ''}"><td>${x.naam}</td><td class="n">${getal(x.ccaPerArts, 1)}</td><td class="n">${pct(x.itero)}</td><td class="n">${pct(x.iosim)}</td><td class="n">${pct(x.aohs)}</td><td class="n">${pct(x.programma)}</td></tr>`).join('')}
+    </table></div>
+    <small>Align-data Benelux, ${getal(SEGMENTEN.reduce((a, x) => a + x.artsen, 0))} artsen. Verband, geen bewezen oorzaak: groeiende praktijken gebruiken meer tools, en tools kunnen helpen om te groeien.</small>
   </div>
 
   <div class="kaart">
@@ -215,6 +271,21 @@ function maakPdf() {
     ['3 of meer extra sets', pct(t.driePlus), pct(p.driePlus)],
   ]);
   tabel('B. Labkosten per tiener bij uw tier', ['Product', 'Prijs', 'Verwacht'], B.productvergelijking.map((x) => [x.naam, eur(x.prijs), eur(x.verwacht)]));
+  const C = laatste.C, G = laatste.G;
+  if (C) {
+    tabel(`C. Invisalign tegenover ${inv.concurrent.naam || 'andere aligner'}, per jaar`, ['', 'Bedrag'], [
+      ['Aligner-cases per jaar', getal(C.cases)],
+      ['Labprijs per case: Invisalign / andere', `${eur(C.invisalign)} / ${eur(C.concurrent)}`],
+      ...(C.viaPatient ? [['Labverschil per case voor de patiënt (techniekkosten)', eur(C.meerkosten / C.cases)]] : [[C.meerkosten >= 0 ? 'Meerkosten labprijs' : 'Lagere labkosten', eur(-C.meerkosten)]]),
+      ...C.posten.filter((p) => !p.info).map((p) => [p.naam, eur(p.bedrag)]),
+      ['Netto onderaan de streep', eur(C.netto)],
+      ['Invisalign mag per case duurder zijn met', eur(C.breakEvenPerCase)],
+    ]);
+  }
+  if (G.volgende && G.drempel) tabel('D. Groei: volgende tier', ['', 'Waarde'], [
+    ['Aligner-cases per jaar', getal(G.casesPerJaar)], ['Volgende tier', G.volgende.naam], ['Extra cases nodig', getal(G.nodig)],
+    ['Lagere labprijs per case', eur(G.besparingPerCase)], ['Besparing per jaar', eur(G.besparingPerJaar)],
+  ]);
   doc.setFontSize(12); doc.setTextColor(...blauw); doc.text('Advies', 14, (y += 9)); doc.setTextColor(29, 36, 51); doc.setFontSize(9);
   for (const a of [...adviezen(inv, r), ...r.kansen.map((k) => `${k.tool}: ${k.tekst}`)]) {
     const regels = doc.splitTextToSize('• ' + pdfTekst(a), 182);
@@ -252,6 +323,8 @@ async function verstuur() {
 
 document.getElementById('pdf').onclick = () => maakPdf().save(bestandsnaam());
 document.getElementById('mail').onclick = verstuur;
+document.getElementById('cVoorzieningen').innerHTML = '<p>Biedt de andere leverancier dit ook?</p>' +
+  VOORZIENINGEN.map((v) => `<label><input type="checkbox" value="${v.id}"> ${v.naam}</label>`).join('');
 form.land.addEventListener('change', vulTiers);
 form.addEventListener('input', render);
 form.addEventListener('change', render);

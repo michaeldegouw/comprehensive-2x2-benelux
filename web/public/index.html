@@ -137,6 +137,38 @@
     <p class="hint" id="hintInterval"></p>
   </fieldset>
 
+  <fieldset>
+    <legend>9. Vergelijking met een andere aligner (optioneel)</legend>
+    <small>Vul in wat de praktijk nu bij de andere leverancier betaalt en krijgt. De vergelijking moet objectief en controleerbaar zijn: gebruik de eigen facturen of prijslijst van de praktijk.</small>
+    <div class="rij">
+      <label>Leverancier <input name="cNaam" placeholder="Naam leverancier"></label>
+      <label>Prijs per vergelijkbare behandeling, incl. btw (€) <input name="cPrijs" type="number" min="0" step="10" placeholder="bv. 1450"></label>
+    </div>
+    <div class="rij">
+      <label>Refinements inbegrepen <input name="cRef" type="number" min="0" step="1" value="1"></label>
+      <label>Prijs per extra refinement (€) <input name="cRefPrijs" type="number" min="0" step="10" value="0"></label>
+    </div>
+    <div class="vinkjes" id="cVoorzieningen"></div>
+    <div class="rij">
+      <label>Adviesgesprekken per jaar <input name="cGesprekken" type="number" min="0" value="200"></label>
+      <label>Meer starts door visualisatie (%-punt) <input name="cConversie" type="number" min="0" max="50" value="5"><small>Inschatting; fabrikant meldt hogere acceptatie met Outcome Simulator.</small></label>
+    </div>
+    <div class="rij">
+      <label>Patiëntaanvragen via Invisalign per jaar <input name="cLeads" type="number" min="0" value="0"></label>
+      <label>Daarvan start (%) <input name="cLeadConv" type="number" min="0" max="100" value="30"></label>
+    </div>
+    <label>Bezoeken minder per case met monitoring <input name="cMonBezoeken" type="number" min="0" max="6" step="0.1" value="2.3"><small>Hansa 2020: −2,3; Hansa 2021: −3,5.</small></label>
+    <label class="check"><input name="cTienerprijs" type="checkbox"> Leverancier heeft ook een vaste lage prijs voor tieners</label>
+  </fieldset>
+
+  <fieldset>
+    <legend>10. Groei</legend>
+    <label>Huidig klantsegment
+      <select name="segment"><option value="lapsed">Afgehaakt (lapsed)</option><option value="new">Nieuw</option><option value="occasional">Occasioneel</option><option value="active" selected>Actief</option><option value="engaged">Engaged</option><option value="expert">Expert</option></select>
+    </label>
+    <label data-land-niet="NL">Cases nodig voor de volgende tier (BE/LU) <input name="drempelVolgendeTier" type="number" min="0" placeholder="opgave Align"></label>
+  </fieldset>
+
   <details>
     <summary>Aannames stoeltijd en tools aanpassen</summary>
     <div class="rij">

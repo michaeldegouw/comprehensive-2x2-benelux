@@ -86,3 +86,31 @@ export const STOELTIJD = {
   vast: { diagnostiek: 45, start: 75, controle: 20, spoed: 15, aantalSpoed: 3.6, afronding: 45, planning: 0 },
   aligner: { diagnostiek: 45, start: 45, controle: 15, spoed: 15, aantalSpoed: 0.8, afronding: 20, planning: 30, opAfstand: 5, refinement: 20 },
 };
+
+// Benchmark per klantsegment (Align-data Benelux, 2.555 artsen, geaggregeerd).
+// Aandeel artsen dat de tool gebruikt en gemiddeld aantal cases (CCA) per arts per jaar.
+export const SEGMENTEN = [
+  { id: 'lapsed', naam: 'Afgehaakt (lapsed)', artsen: 1382, ccaPerArts: 0.03, itero: 0.12, aohs: 0.06, iosim: 0.03, smileVideo: 0.00, programma: 0.01 },
+  { id: 'new', naam: 'Nieuw', artsen: 115, ccaPerArts: 12.3, itero: 0.31, aohs: 0.23, iosim: 0.19, smileVideo: 0.08, programma: 0.89 },
+  { id: 'occasional', naam: 'Occasioneel', artsen: 324, ccaPerArts: 1.6, itero: 0.28, aohs: 0.15, iosim: 0.09, smileVideo: 0.03, programma: 0.06 },
+  { id: 'active', naam: 'Actief', artsen: 454, ccaPerArts: 12.8, itero: 0.42, aohs: 0.27, iosim: 0.21, smileVideo: 0.05, programma: 0.20 },
+  { id: 'engaged', naam: 'Engaged', artsen: 231, ccaPerArts: 52.3, itero: 0.68, aohs: 0.47, iosim: 0.40, smileVideo: 0.10, programma: 0.57 },
+  { id: 'expert', naam: 'Expert', artsen: 46, ccaPerArts: 182.2, itero: 0.85, aohs: 0.85, iosim: 0.74, smileVideo: 0.48, programma: 0.80 },
+];
+
+// Drempels NL-tiers (cases per jaar, prijslijst 2026). BE/LU: drempels nog aan te leveren door Align.
+export const TIER_DREMPELS_NL = [0, 10, 50, 100, 200];
+
+// Wat de praktijk bij Invisalign krijgt; de praktijk vinkt aan wat de vergeleken leverancier ook biedt.
+export const VOORZIENINGEN = [
+  { id: 'scanner', naam: 'Geïntegreerde intraorale scanner (iTero) met directe overdracht naar het behandelplan' },
+  { id: 'simulator', naam: 'Patiëntvisualisatie in de stoel (Outcome Simulator Pro, Smile Video)' },
+  { id: 'liveupdate', naam: 'Behandelplan direct zelf aanpassen (ClinCheck Live Update, Plan Editor)' },
+  { id: 'templates', naam: 'Persoonlijke behandelvoorkeuren als template (IPP / IPL)' },
+  { id: 'monitoring', naam: 'Monitoring op afstand (Invisalign Virtual Care / Practice App)' },
+  { id: 'teen', naam: 'Tienerfuncties: draagindicatoren, eruptiecompensatie, vervangende aligners' },
+  { id: 'growth', naam: 'Groeisturing met aligners (Mandibular Advancement, Invisalign First)' },
+  { id: 'leads', naam: 'Patiëntverwijzing via consumentencampagnes en Doctor Locator' },
+  { id: 'educatie', naam: 'Klinische opleiding, peer-to-peer mentoring en praktijkcoaching' },
+  { id: 'retentie', naam: 'Eigen retentieproduct (Vivera)' },
+];
