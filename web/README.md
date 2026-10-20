@@ -13,19 +13,46 @@ Een webpagina waarop een vertegenwoordiger samen met de praktijk de gegevens inv
 | `worker.js`, `wrangler.jsonc` | Cloudflare Worker: wachtwoord en pdf mailen via Resend |
 | `build-voorbeeld.mjs` | Maakt `../voorbeeld/praktijkcalculator.html`: één los bestand om te bekijken. **Zonder wachtwoord en zonder mail.** |
 
-## Wachtwoord en e-mail
+## Opzet: stappenplan voor vertegenwoordigers
 
-- **Wachtwoord.** De worker toont eerst een inlogpagina. Na het juiste wachtwoord krijgt de gebruiker een sessiecookie: HttpOnly, 12 uur geldig, ondertekend met HMAC. Zonder geldige sessie levert de worker geen pagina en geen API.
-- **Versturen.** De knop "Versturen" stuurt de pdf naar `/api/verstuur`. Daar gelden twee regels:
-  - het cc-adres moet een `@REP_DOMAIN`-adres zijn, zodat de functie niet als open mailrelais te gebruiken is;
-  - het antwoordadres is de vertegenwoordiger.
-- **Zonder server.** Als er geen server is (los bestand), wordt de pdf gedownload en opent het e-mailprogramma, met de praktijk als ontvanger en de vertegenwoordiger in cc.
+De tool is bedoeld voor eigen medewerkers. Zij lopen samen met de klant door zes korte stappen:
+
+1. **Praktijk.** Hier kies je ook de route:
+   - **Snel:** alleen de kernvragen; de rest zijn Nederlandse gemiddelden.
+   - **Op maat:** alle aannames zichtbaar.
+2. **Patiënten.** De tier wordt automatisch bepaald uit het aantal cases.
+3. **Werkwijze en tools.**
+4. **Plan.**
+5. **Concurrent** (optioneel).
+6. **Uitkomst en versturen.**
+
+Rechts staat tijdens het invullen een voorlopige uitkomst. De invoer wordt tussentijds opgeslagen in de browser van de vertegenwoordiger. "Nieuwe analyse" wist die gegevens.
+
+De opzet volgt gangbare richtlijnen voor stappenplannen en waardecalculators:
+- één onderwerp per stap, met voortgang zichtbaar;
+- realistische standaardwaarden;
+- extra velden pas op verzoek;
+- weinig rekenposten;
+- vergelijking met de huidige situatie.
+
+Zie het gesprek of `../onderzoek/` voor de bronnen.
+
+## Inloggen per vertegenwoordiger
+
+- **Eigen account.** Iedere vertegenwoordiger heeft een eigen gebruikersnaam en wachtwoord. Accounts staan in het geheim `GEBRUIKERS`. Wachtwoorden worden alleen opgeslagen als PBKDF2-hash met 100.000 rondes.
+- **Account aanmaken:**
+  ```bash
+  node web/gebruiker-toevoegen.mjs jjansen "Jan Jansen" j.jansen@aligntech.com
+  ```
+  Plak de regel in het JSON-geheim en voer daarna `npx wrangler secret put GEBRUIKERS` uit.
+- **Account verwijderen:** haal de regel uit `GEBRUIKERS` en zet het geheim opnieuw. Bestaande sessies vervallen dan direct.
+- **Na inloggen** worden naam en e-mail van de vertegenwoordiger automatisch gebruikt. De pdf gaat naar de praktijk, met **altijd** de ingelogde vertegenwoordiger in cc; een ander cc-adres is niet mogelijk.
 
 ## Installeren (na akkoord van Align IT/Compliance)
 
 ```bash
 cd web
-npx wrangler secret put APP_PASSWORD     # gedeeld wachtwoord voor de vertegenwoordigers
+npx wrangler secret put GEBRUIKERS       # JSON met de accounts
 npx wrangler secret put SESSION_SECRET   # lange willekeurige tekenreeks
 npx wrangler secret put RESEND_API_KEY   # of vervang de mailfunctie door de mailserver van Align
 # pas MAIL_FROM en REP_DOMAIN aan in wrangler.jsonc

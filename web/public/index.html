@@ -4,205 +4,204 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Praktijkcalculator Comprehensive 2x2</title>
+<title>Praktijkanalyse Invisalign</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="kop">
-  <div class="wrap">
-    <div class="eyebrow">Invisalign · Benelux</div>
-    <h1>Praktijkcalculator</h1>
-    <p class="sub">A. Wat aligners opleveren voor de bedrijfsvoering. B. Waarom Comprehensive 2x2 de beste keuze is voor tieners. Concept, ter validatie.</p>
+  <div class="wrap kopregel">
+    <div>
+      <div class="eyebrow">Invisalign · Nederland · voor vertegenwoordigers</div>
+      <h1>Praktijkanalyse</h1>
+    </div>
+    <div class="gebruiker" id="gebruiker"></div>
   </div>
+  <nav class="wrap stappen" id="stappen" aria-label="Stappen"></nav>
 </header>
 
-<main class="wrap grid">
-<form id="form" class="invoer" autocomplete="off">
+<main class="wrap indeling">
+<form id="form" autocomplete="off" novalidate>
+  <input type="hidden" name="land" value="NL">
 
-  <fieldset>
-    <legend>1. Praktijk</legend>
+  <section class="stap" data-titel="Praktijk">
+    <h2>Met welke praktijk zit u aan tafel?</h2>
     <label>Praktijknaam <input name="praktijk" placeholder="Orthodontiepraktijk …"></label>
-    <label>Contactpersoon <input name="contact" placeholder="Dr. …"></label>
-    <label>E-mail praktijk <input name="emailPraktijk" type="email" placeholder="info@praktijk.nl"></label>
     <div class="rij">
-      <label>Land
-        <select name="land"><option value="NL">Nederland</option><option value="BE">België</option><option value="LU">Luxemburg</option></select>
-      </label>
+      <label>Contactpersoon <input name="contact" placeholder="Dr. …"></label>
+      <label>E-mail praktijk <input name="emailPraktijk" type="email" placeholder="info@praktijk.nl"></label>
+    </div>
+    <div class="rij">
       <label>Type praktijk
         <select name="type"><option value="ortho">Orthodontist</option><option value="gp">Tandarts (GP)</option></select>
       </label>
+      <label>Klantsegment
+        <select name="segment"><option value="active">Actief</option><option value="occasional">Occasioneel</option><option value="engaged">Engaged</option><option value="expert">Expert</option><option value="new">Nieuw</option><option value="lapsed">Afgehaakt (lapsed)</option></select>
+      </label>
     </div>
-  </fieldset>
+    <fieldset class="route">
+      <legend>Hoe wilt u invullen?</legend>
+      <label class="keuze"><input type="radio" name="route" value="snel" checked><span><strong>Snel</strong><br><small>Alleen de belangrijkste vragen. De rest zijn gemiddelden voor Nederland.</small></span></label>
+      <label class="keuze"><input type="radio" name="route" value="maat"><span><strong>Op maat</strong><br><small>Alle aannames zichtbaar en aan te passen aan deze praktijk.</small></span></label>
+    </fieldset>
+    <div class="rep-velden" id="repVelden">
+      <h3>Uw gegevens</h3>
+      <div class="rij">
+        <label>Naam vertegenwoordiger <input name="rep"></label>
+        <label>E-mail (cc) <input name="emailRep" type="email"></label>
+      </div>
+    </div>
+  </section>
 
-  <fieldset>
-    <legend>2. Vertegenwoordiger</legend>
-    <div class="rij">
-      <label>Naam <input name="rep"></label>
-      <label>E-mail (cc) <input name="emailRep" type="email"></label>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>3. Capaciteit</legend>
-    <div class="rij">
-      <label>Stoelen voor orthodontie <input name="stoelen" type="number" min="1" step="1" value="3"></label>
-      <label>Dagen per week <input name="dagenPerWeek" type="number" min="1" max="7" step="0.5" value="4"></label>
-    </div>
-    <div class="rij">
-      <label>Uren per dag <input name="urenPerDag" type="number" min="1" max="14" step="0.5" value="8"></label>
-      <label>Werkweken per jaar <input name="wekenPerJaar" type="number" min="30" max="52" value="46"></label>
-    </div>
-    <div class="rij">
-      <label>Deel stoeltijd voor orthodontie (%) <input name="orthoAandeel" type="number" min="1" max="100" value="100"></label>
-      <label>Kosten per stoeluur (€) <input name="kostenPerStoeluur" type="number" min="0" step="5" value="150">
-        <small>Personeel, huisvesting, apparatuur. Schatting van de praktijk.</small></label>
-    </div>
-    <label class="check"><input name="wachtlijst" type="checkbox"> Er is een wachtlijst voor nieuwe patiënten</label>
-  </fieldset>
-
-  <fieldset>
-    <legend>4. Patiënten</legend>
+  <section class="stap" data-titel="Patiënten">
+    <h2>Hoeveel patiënten behandelt de praktijk?</h2>
     <div class="rij">
       <label>Nieuwe orthodontische starts per jaar <input name="startsPerJaar" type="number" min="1" value="150"></label>
-      <label>Waarvan tieners (≤ 19 jaar) (%) <input name="aandeelTieners" type="number" min="0" max="100" value="70"></label>
+      <label>Waarvan tieners, 19 jaar en jonger (%) <input name="aandeelTieners" type="number" min="0" max="100" value="70"></label>
     </div>
     <div class="rij">
-      <label>Tieners nu met aligners (%) <input name="tienersAlignerNu" type="number" min="0" max="100" value="15"></label>
-      <label>Volwassenen met aligners (%) <input name="volwAlignerNu" type="number" min="0" max="100" value="60"></label>
+      <label>Tieners nu met Invisalign (%) <input name="tienersAlignerNu" type="number" min="0" max="100" value="15"></label>
+      <label>Volwassenen nu met Invisalign (%) <input name="volwAlignerNu" type="number" min="0" max="100" value="60"></label>
     </div>
-    <div class="rij">
-      <label>Behandelduur vaste beugel (mnd) <input name="duurVast" type="number" min="6" max="48" value="24"></label>
-      <label>Behandelduur aligners (mnd) <input name="duurAligner" type="number" min="3" max="36" value="18"></label>
-    </div>
-  </fieldset>
+    <p class="afgeleid" id="afgeleidTier"></p>
+    <details class="maat">
+      <summary>Meer aanpassen</summary>
+      <div class="rij">
+        <label>Korting-tier <select name="tier"></select><small>Automatisch op basis van het aantal cases per jaar; hier aan te passen.</small></label>
+        <label>Product nu voor tieners
+          <select name="productTienersNu"><option value="c3x3">Comprehensive 3x3</option><option value="unlimited">Comprehensive unlimited</option><option value="moderate">Moderate</option></select>
+        </label>
+      </div>
+      <div class="rij">
+        <label>Product voor volwassenen
+          <select name="productVolw"><option value="c3x3">Comprehensive 3x3</option><option value="unlimited">Comprehensive unlimited</option><option value="c2x2volw">Comprehensive 2x2 volwassenen</option><option value="moderate">Moderate</option><option value="lite">Lite</option></select>
+        </label>
+        <label>Materiaalkosten vaste beugel (€) <input name="materiaalVast" type="number" min="0" value="240"></label>
+      </div>
+      <div class="rij">
+        <label>Behandelduur vaste beugel (mnd) <input name="duurVast" type="number" min="6" max="48" value="24"></label>
+        <label>Behandelduur aligners (mnd) <input name="duurAligner" type="number" min="3" max="36" value="18"></label>
+      </div>
+      <div class="rij">
+        <label>Aanvullende polis: vergoeding (%) <input name="polisPct" type="number" min="0" max="100" value="100"></label>
+        <label>Polis maximum (€) <input name="polisMax" type="number" min="0" step="50" value="2000"></label>
+      </div>
+    </details>
+  </section>
 
-  <fieldset>
-    <legend>5. Huidige werkwijze</legend>
+  <section class="stap" data-titel="Werkwijze">
+    <h2>Hoe werkt de praktijk nu?</h2>
     <div class="rij">
-      <label>Controle-interval vaste beugel (weken) <input name="intervalVast" type="number" min="2" max="16" step="0.5" value="5"></label>
-      <label>Controle-interval aligners (weken) <input name="intervalAlignerNu" type="number" min="2" max="16" step="0.5" value="6"></label>
+      <label>Controle vaste beugel, elke … weken <input name="intervalVast" type="number" min="2" max="16" step="0.5" value="5"></label>
+      <label>Controle aligners, elke … weken <input name="intervalAlignerNu" type="number" min="2" max="16" step="0.5" value="6"></label>
     </div>
-    <label class="check"><input name="opAfstandNu" type="checkbox"> Monitoring op afstand of consult op afstand in gebruik</label>
-    <label class="check"><input name="itero" type="checkbox" checked> iTero intraorale scanner voor (vrijwel) alle cases</label>
-    <label class="check"><input name="ipp" type="checkbox"> Invisalign Personalized Plan (IPP) of IPL-templates in gebruik</label>
-  </fieldset>
+    <p class="vraag">Welke Invisalign-tools gebruikt de praktijk al?</p>
+    <label class="check"><input name="itero" type="checkbox" checked> iTero-scanner voor (vrijwel) alle cases</label>
+    <label class="check"><input name="ipp" type="checkbox"> Invisalign Personalized Plan (IPP) of IPL-templates</label>
+    <label class="check"><input name="opAfstandNu" type="checkbox"> Monitoring op afstand (Virtual Care / Practice App)</label>
+    <label class="check"><input name="wachtlijst" type="checkbox"> Er is een wachtlijst voor nieuwe patiënten</label>
+    <details class="maat">
+      <summary>Meer aanpassen: capaciteit en stoeltijd</summary>
+      <div class="rij">
+        <label>Stoelen voor orthodontie <input name="stoelen" type="number" min="1" value="3"></label>
+        <label>Dagen per week <input name="dagenPerWeek" type="number" min="1" max="7" step="0.5" value="4"></label>
+      </div>
+      <div class="rij">
+        <label>Uren per dag <input name="urenPerDag" type="number" min="1" max="14" step="0.5" value="8"></label>
+        <label>Werkweken per jaar <input name="wekenPerJaar" type="number" min="30" max="52" value="46"></label>
+      </div>
+      <div class="rij">
+        <label>Deel stoeltijd voor orthodontie (%) <input name="orthoAandeel" type="number" min="1" max="100" value="100"></label>
+        <label>Kosten per stoeluur (€) <input name="kostenPerStoeluur" type="number" min="0" step="5" value="150"><small>Personeel, huisvesting, apparatuur.</small></label>
+      </div>
+      <div class="rij">
+        <label>Controle vaste beugel (min) <input name="st_vast_controle" type="number" value="20"></label>
+        <label>Controle aligner (min) <input name="st_aligner_controle" type="number" value="15"></label>
+      </div>
+      <div class="rij">
+        <label>Start vaste beugel (min) <input name="st_vast_start" type="number" value="75"></label>
+        <label>Start aligner (min) <input name="st_aligner_start" type="number" value="45"></label>
+      </div>
+      <div class="rij">
+        <label>Tijd per ClinCheck-aanpassing (min) <input name="minutenPerModificatie" type="number" value="15"></label>
+        <label>Tijdwinst per scan t.o.v. afdruk (min) <input name="minutenPerAfdrukBespaard" type="number" value="0"><small>In studies niet aangetoond (Burzynski 2018).</small></label>
+      </div>
+    </details>
+  </section>
 
-  <fieldset>
-    <legend>6. Invisalign</legend>
-    <label>Huidige korting-tier <select name="tier"></select></label>
-    <div class="rij">
-      <label>Product nu voor tieners
-        <select name="productTienersNu"><option value="c3x3">Comprehensive 3x3</option><option value="unlimited">Comprehensive unlimited</option><option value="moderate">Moderate</option></select>
-      </label>
-      <label>Product volwassenen
-        <select name="productVolw"><option value="c3x3">Comprehensive 3x3</option><option value="unlimited">Comprehensive unlimited</option><option value="c2x2volw">Comprehensive 2x2 volwassenen</option><option value="moderate">Moderate</option><option value="lite">Lite</option></select>
-      </label>
-    </div>
-    <label>Materiaalkosten vaste beugel per behandeling (€) <input name="materiaalVast" type="number" min="0" value="240"></label>
-  </fieldset>
-
-  <fieldset data-land="NL">
-    <legend>7. Vergoeding (Nederland)</legend>
-    <div class="rij">
-      <label>Aanvullende polis: vergoeding (%) <input name="polisPct" type="number" min="0" max="100" value="100"></label>
-      <label>Maximum (€) <input name="polisMax" type="number" min="0" step="50" value="2000"></label>
-    </div>
-    <small>Honorarium volgens NZa-tarieven 2026; techniekkosten tegen inkoopprijs.</small>
-  </fieldset>
-
-  <fieldset data-land="BE">
-    <legend>7. Honoraria (België)</legend>
-    <label>Statuut
-      <select name="beModel"><option value="eigen">Niet-geconventioneerd: eigen pakketprijzen</option><option value="max">Geconventioneerd: maximumtarieven 2026</option></select>
+  <section class="stap" data-titel="Plan">
+    <h2>Wat wil de praktijk bereiken?</h2>
+    <label>Tieners met Invisalign: <output id="outDoel">40%</output>
+      <input name="tienersAlignerDoel" type="range" min="0" max="100" step="5" value="40" class="schuif"></label>
+    <label>Controle aligners na de eerste weken
+      <select name="intervalAlignerDoel"><option value="6">elke 6 weken</option><option value="8">elke 8 weken</option><option value="10">elke 10 weken</option><option value="11" selected>elke 10–12 weken</option></select>
     </label>
-    <div class="rij">
-      <label>Pakketprijs vaste beugel (€) <input name="prijsVast" type="number" min="0" step="50" value="3500"></label>
-      <label>Huidige prijs aligners tieners (€) <input name="prijsAligner" type="number" min="0" step="50" value="4500"><small>Met het huidige product. Met 2x2 kan deze prijs omlaag met het labverschil.</small></label>
-    </div>
-  </fieldset>
-
-  <fieldset data-land="LU">
-    <legend>7. Honoraria (Luxemburg)</legend>
-    <label>Huidig supplement CP8 aligners tieners (€) <input name="cp8" type="number" min="0" step="10" value="1500"><small>Met het huidige product. Met 2x2 kan dit supplement omlaag met het labverschil.</small></label>
-  </fieldset>
-
-  <fieldset class="doel">
-    <legend>8. Scenario</legend>
-    <div class="rij">
-      <label>Tieners met aligners in het scenario (%) <input name="tienersAlignerDoel" type="number" min="0" max="100" value="40"></label>
-      <label>Controle-interval aligners (weken) <input name="intervalAlignerDoel" type="number" min="4" max="16" step="0.5" value="11"></label>
-    </div>
     <label class="check"><input name="opAfstandDoel" type="checkbox" checked> Met monitoring op afstand tussen de bezoeken</label>
-    <label>Extra tieners die voor aligners kiezen door de lagere prijs met 2x2 (%-punt) <input name="extraAdoptie" type="number" min="0" max="100" value="10"><small>Inschatting van de praktijk.</small></label>
     <p class="hint" id="hintInterval"></p>
-  </fieldset>
+    <details class="maat">
+      <summary>Meer aanpassen</summary>
+      <label>Extra tieners die voor Invisalign kiezen door de lagere prijs met 2x2 (%-punt) <input name="extraAdoptie" type="number" min="0" max="100" value="10"><small>Inschatting van de praktijk.</small></label>
+    </details>
+  </section>
 
-  <fieldset>
-    <legend>9. Vergelijking met een andere aligner (optioneel)</legend>
-    <small>Vul in wat de praktijk nu bij de andere leverancier betaalt en krijgt. De vergelijking moet objectief en controleerbaar zijn: gebruik de eigen facturen of prijslijst van de praktijk.</small>
+  <section class="stap" data-titel="Concurrent">
+    <h2>Werkt de praktijk ook met een andere aligner?</h2>
+    <p class="uitleg">Optioneel. Vul de gegevens in uit de eigen factuur of prijslijst van de praktijk. Zo blijft de vergelijking objectief en controleerbaar. Leeg laten is overslaan.</p>
     <div class="rij">
       <label>Leverancier <input name="cNaam" placeholder="Naam leverancier"></label>
-      <label>Prijs per vergelijkbare behandeling, incl. btw (€) <input name="cPrijs" type="number" min="0" step="10" placeholder="bv. 1450"></label>
+      <label>Prijs per vergelijkbare behandeling, incl. btw (€) <input name="cPrijs" type="number" min="0" step="10" placeholder="leeg = overslaan"></label>
     </div>
     <div class="rij">
       <label>Refinements inbegrepen <input name="cRef" type="number" min="0" step="1" value="1"></label>
       <label>Prijs per extra refinement (€) <input name="cRefPrijs" type="number" min="0" step="10" value="0"></label>
     </div>
     <div class="vinkjes" id="cVoorzieningen"></div>
-    <div class="rij">
-      <label>Adviesgesprekken per jaar <input name="cGesprekken" type="number" min="0" value="200"></label>
-      <label>Meer starts door visualisatie (%-punt) <input name="cConversie" type="number" min="0" max="50" value="5"><small>Inschatting; fabrikant meldt hogere acceptatie met Outcome Simulator.</small></label>
-    </div>
-    <div class="rij">
-      <label>Patiëntaanvragen via Invisalign per jaar <input name="cLeads" type="number" min="0" value="0"></label>
-      <label>Daarvan start (%) <input name="cLeadConv" type="number" min="0" max="100" value="30"></label>
-    </div>
-    <label>Bezoeken minder per case met monitoring <input name="cMonBezoeken" type="number" min="0" max="6" step="0.1" value="2.3"><small>Hansa 2020: −2,3; Hansa 2021: −3,5.</small></label>
     <label class="check"><input name="cTienerprijs" type="checkbox"> Leverancier heeft ook een vaste lage prijs voor tieners</label>
-  </fieldset>
+    <details class="maat">
+      <summary>Meer aanpassen</summary>
+      <div class="rij">
+        <label>Adviesgesprekken per jaar <input name="cGesprekken" type="number" min="0" value="200"></label>
+        <label>Meer starts door visualisatie (%-punt) <input name="cConversie" type="number" min="0" max="50" value="5"><small>Inschatting.</small></label>
+      </div>
+      <div class="rij">
+        <label>Patiëntaanvragen via Invisalign per jaar <input name="cLeads" type="number" min="0" value="0"></label>
+        <label>Daarvan start (%) <input name="cLeadConv" type="number" min="0" max="100" value="30"></label>
+      </div>
+      <label>Bezoeken minder per case met monitoring <input name="cMonBezoeken" type="number" min="0" max="6" step="0.1" value="2.3"><small>Hansa 2020: −2,3; Hansa 2021: −3,5.</small></label>
+    </details>
+  </section>
 
-  <fieldset>
-    <legend>10. Groei</legend>
-    <label>Huidig klantsegment
-      <select name="segment"><option value="lapsed">Afgehaakt (lapsed)</option><option value="new">Nieuw</option><option value="occasional">Occasioneel</option><option value="active" selected>Actief</option><option value="engaged">Engaged</option><option value="expert">Expert</option></select>
-    </label>
-    <label data-land-niet="NL">Cases nodig voor de volgende tier (BE/LU) <input name="drempelVolgendeTier" type="number" min="0" placeholder="opgave Align"></label>
-  </fieldset>
+  <section class="stap" data-titel="Uitkomst">
+    <div id="uitkomst" aria-live="polite"></div>
+    <div class="kaart">
+      <h2>Versturen</h2>
+      <div class="acties">
+        <button type="button" id="pdf" class="sec">PDF downloaden</button>
+        <button type="button" id="mail" disabled>Verstuur naar praktijk</button>
+        <button type="button" id="nieuw" class="sec">Nieuwe analyse</button>
+        <span class="melding" id="melding"></span>
+      </div>
+      <small>De pdf gaat naar het e-mailadres van de praktijk, met u in cc.</small>
+    </div>
+  </section>
 
-  <details>
-    <summary>Aannames stoeltijd en tools aanpassen</summary>
-    <div class="rij">
-      <label>Controle vaste beugel (min) <input name="st_vast_controle" type="number" value="20"></label>
-      <label>Controle aligner (min) <input name="st_aligner_controle" type="number" value="15"></label>
-    </div>
-    <div class="rij">
-      <label>Start vaste beugel (min) <input name="st_vast_start" type="number" value="75"></label>
-      <label>Start aligner (min) <input name="st_aligner_start" type="number" value="45"></label>
-    </div>
-    <div class="rij">
-      <label>Winst per scan t.o.v. PVS (min) <input name="minutenPerAfdrukBespaard" type="number" value="0"></label>
-      <label>Tijd per ClinCheck-modificatie (min) <input name="minutenPerModificatie" type="number" value="15"></label>
-    </div>
-  </details>
-  <a class="naar" href="#resultaat">Naar de uitkomst ↓</a>
+  <div hidden>
+    <select name="beModel"><option value="eigen">eigen</option><option value="max">max</option></select>
+    <input name="prijsVast" type="number" value="3500"><input name="prijsAligner" type="number" value="4500">
+    <input name="cp8" type="number" value="1500"><input name="drempelVolgendeTier" type="number">
+  </div>
+
+  <div class="navigatie">
+    <button type="button" class="sec" id="terug">Vorige</button>
+    <span class="teller" id="teller"></span>
+    <button type="button" id="verder">Volgende</button>
+  </div>
 </form>
 
-<section class="uitkomst" id="resultaat">
-  <div id="uitkomst" aria-live="polite"></div>
-  <div class="kaart">
-    <h2>Versturen</h2>
-    <div class="acties">
-      <button type="button" id="pdf" class="sec">PDF downloaden</button>
-      <button type="button" id="mail" disabled>Verstuur naar praktijk</button>
-      <span class="melding" id="melding"></span>
-    </div>
-    <small>De pdf gaat naar het e-mailadres van de praktijk, met de vertegenwoordiger in cc.</small>
-  </div>
-</section>
+<aside class="voorproef" id="voorproef" aria-live="polite"></aside>
 </main>
 
 <footer class="wrap voet">
-  <p>Concept voor validatie. Tarieven: NZa 2026 / RIZIV 1-1-2026 / CNS 01-06-2026, nog niet in de officiële bron gecontroleerd. Prijzen: Invisalign-prijslijsten 1 maart – 31 december 2026; bindend zijn de prijzen op de Invisalign Doctor Site. Adviesprijzen zijn vrijblijvend: elke praktijk bepaalt haar eigen tarieven. Klinische keuzes blijven aan de behandelaar.</p>
+  <p>Concept voor validatie. Tarieven: NZa 2026, nog niet in de officiële bron gecontroleerd. Prijzen: Invisalign-prijslijst Nederland 1 maart – 31 december 2026; bindend zijn de prijzen op de Invisalign Doctor Site. Klinische keuzes, waaronder het controle-interval, blijven aan de behandelaar.</p>
 </footer>
 
 <script src="vendor/jspdf.umd.min.js"></script>

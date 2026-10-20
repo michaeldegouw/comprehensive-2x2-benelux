@@ -323,10 +323,116 @@ async function verstuur() {
 
 document.getElementById('pdf').onclick = () => maakPdf().save(bestandsnaam());
 document.getElementById('mail').onclick = verstuur;
-document.getElementById('cVoorzieningen').innerHTML = '<p>Biedt de andere leverancier dit ook?</p>' +
+document.getElementById('cVoorzieningen').innerHTML = '<p>Biedt deze leverancier dit ook?</p>' +
   VOORZIENINGEN.map((v) => `<label><input type="checkbox" value="${v.id}"> ${v.naam}</label>`).join('');
-form.land.addEventListener('change', vulTiers);
-form.addEventListener('input', render);
-form.addEventListener('change', render);
+
+// ---------- Stappen ----------
+const stappen = [...document.querySelectorAll('.stap')];
+let stap = 0;
+const nav = document.getElementById('stappen');
+nav.innerHTML = stappen.map((s, i) => `<button type="button" data-i="${i}"><span>${i + 1}</span> ${s.dataset.titel}</button>`).join('');
+nav.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) naarStap(Number(b.dataset.i)); });
+document.getElementById('terug').onclick = () => naarStap(stap - 1);
+document.getElementById('verder').onclick = () => naarStap(stap + 1);
+
+function naarStap(i) {
+  stap = Math.max(0, Math.min(stappen.length - 1, i));
+  stappen.forEach((s, j) => { s.hidden = j !== stap; });
+  [...nav.children].forEach((b, j) => { b.classList.toggle('actief', j === stap); b.classList.toggle('klaar', j < stap); });
+  document.getElementById('terug').disabled = stap === 0;
+  const verder = document.getElementById('verder');
+  verder.hidden = stap === stappen.length - 1;
+  verder.textContent = stap === stappen.length - 2 ? 'Naar de uitkomst' : 'Volgende';
+  document.getElementById('teller').textContent = `Stap ${stap + 1} van ${stappen.length}`;
+  document.getElementById('voorproef').hidden = stap === stappen.length - 1;
+  bewaar();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---------- Snel of op maat ----------
+function route() {
+  const maat = form.route.value === 'maat';
+  document.querySelectorAll('details.maat').forEach((d) => { d.hidden = !maat; d.open = maat; });
+}
+
+// ---------- Tier automatisch op basis van volume (NL) ----------
+let tierHandmatig = false;
+form.tier.addEventListener('change', () => { tierHandmatig = true; });
+function autoTier() {
+  const f = form, n = (k) => Number(f[k].value) || 0;
+  const cases = n('startsPerJaar') * ((n('aandeelTieners') / 100) * (n('tienersAlignerNu') / 100) + (1 - n('aandeelTieners') / 100) * (n('volwAlignerNu') / 100));
+  const drempels = [0, 10, 50, 100, 200];
+  const idx = drempels.filter((d) => cases >= d).length - 1;
+  if (!tierHandmatig) f.tier.value = TIERS.NL[idx].id;
+  document.getElementById('afgeleidTier').textContent = `±${getal(cases)} Invisalign-cases per jaar → tier ${TIERS.NL[idx].naam} (${pct(TIERS.NL[idx].korting)} korting op de lijstprijs).${tierHandmatig ? ' Tier handmatig aangepast.' : ''}`;
+}
+
+// ---------- Voorproef ----------
+function voorproef() {
+  const { r, inv } = laatste; const A = r.A, B = r.B;
+  document.getElementById('outDoel').textContent = pct(inv.tienersAlignerDoel / 100);
+  document.getElementById('voorproef').innerHTML = `<div class="kaart klein">
+    <div class="eyebrow">Voorlopige uitkomst</div>
+    <div class="pv"><span>Stoeltijd vrij per jaar</span><strong>${getal(A.vrij)} u</strong></div>
+    <div class="pv"><span>Extra starts mogelijk</span><strong>+${getal(A.extraStarts)}</strong></div>
+    <div class="pv"><span>Per stoeluur: beugel / Invisalign</span><strong>${eur(A.aligners.vast.perUur)} / ${eur(A.aligners.alT.perUur)}</strong></div>
+    <div class="pv"><span>Ouders tiener: beugel / 2x2</span><strong>${eur(B.met2x2.vast.omzet)} / ${eur(B.met2x2.alT.omzet)}</strong></div>
+    ${laatste.C ? `<div class="pv"><span>Tegenover ${esc(inv.concurrent.naam || 'concurrent')}</span><strong>${laatste.C.netto >= 0 ? '+' : '−'}${eur(Math.abs(laatste.C.netto))}/jr</strong></div>` : ''}
+  </div>`;
+}
+
+// ---------- Tussentijds opslaan (alleen in deze browser) ----------
+const SLEUTEL = 'praktijkanalyse-nl';
+function bewaar() {
+  try {
+    const d = {};
+    for (const el of form.elements) if (el.name) d[el.name] = el.type === 'checkbox' ? el.checked : el.type === 'radio' ? (el.checked ? el.value : d[el.name]) : el.value;
+    d._voorzieningen = [...document.querySelectorAll('#cVoorzieningen input:checked')].map((x) => x.value);
+    d._stap = stap; d._tierHandmatig = tierHandmatig;
+    localStorage.setItem(SLEUTEL, JSON.stringify(d));
+  } catch { /* opslag niet beschikbaar */ }
+}
+function herstel() {
+  try {
+    const d = JSON.parse(localStorage.getItem(SLEUTEL) || 'null');
+    if (!d) return 0;
+    for (const el of form.elements) {
+      if (!el.name || !(el.name in d) || el.name === 'land') continue;
+      if (el.type === 'checkbox') el.checked = !!d[el.name];
+      else if (el.type === 'radio') el.checked = el.value === d[el.name];
+      else el.value = d[el.name];
+    }
+    document.querySelectorAll('#cVoorzieningen input').forEach((x) => { x.checked = (d._voorzieningen || []).includes(x.value); });
+    tierHandmatig = !!d._tierHandmatig;
+    return d._stap || 0;
+  } catch { return 0; }
+}
+document.getElementById('nieuw').onclick = () => {
+  if (!confirm('Alle ingevulde gegevens wissen en opnieuw beginnen?')) return;
+  try { localStorage.removeItem(SLEUTEL); } catch { /* */ }
+  location.reload();
+};
+
+// ---------- Ingelogde vertegenwoordiger ----------
+async function wie() {
+  try {
+    if (location.protocol === 'file:') return;
+    const res = await fetch('api/me');
+    if (!res.ok) return;
+    const u = await res.json();
+    form.rep.value = u.naam; form.emailRep.value = u.email;
+    document.getElementById('repVelden').hidden = true;
+    document.getElementById('gebruiker').innerHTML = `${esc(u.naam)} · <a href="/uitloggen">Uitloggen</a>`;
+    alles();
+  } catch { /* los bestand zonder server */ }
+}
+
+function alles() { autoTier(); render(); voorproef(); }
 vulTiers();
-render();
+const start = herstel();
+route();
+form.addEventListener('input', () => { alles(); bewaar(); });
+form.addEventListener('change', (e) => { if (e.target.name === 'route') route(); alles(); bewaar(); });
+alles();
+naarStap(start);
+wie();
