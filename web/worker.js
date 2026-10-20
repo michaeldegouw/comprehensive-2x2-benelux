@@ -59,6 +59,7 @@ const geldigAdres = (s) => typeof s === 'string' && /^[^\s@<>,;]+@[^\s@<>,;]+\.[
 const schoon = (s, max = 120) => String(s ?? '').replace(/[\r\n<>]/g, ' ').slice(0, max);
 
 async function verstuur(req, env, gebruiker) {
+  if (!env.RESEND_API_KEY) return new Response('Mailverzending niet ingesteld', { status: 503 }); // app valt terug op download + mailprogramma
   let b;
   try { b = await req.json(); } catch { return new Response('Ongeldige aanvraag', { status: 400 }); }
   if (!geldigAdres(b.aan)) return new Response('Ongeldig e-mailadres praktijk', { status: 400 });
